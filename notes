@@ -1,0 +1,9 @@
+настройка git клона проекта:
+    - composer install
+    - cp .env.example .env
+    - php artisan key:generate
+    - php artisan optimize:clear
+
+подключение api:
+    - php artisan install:api
+    появится api.php и зарегистрируется в routes
