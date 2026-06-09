@@ -13,7 +13,29 @@ return new class extends Migration
     {
         Schema::create('favorite_vacancies', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('vacancy_id');
+
             $table->timestamps();
+
+            $table->index('user_id', 'favorite_vacancies_user_idx');
+            $table->index('vacancy_id', 'favorite_vacancies_vacancy_idx');
+
+            $table->foreign('user_id', 'favorite_vacancies_user_fk')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
+
+            $table->foreign('vacancy_id', 'favorite_vacancies_vacancy_fk')
+                ->references('id')
+                ->on('vacancies')
+                ->cascadeOnDelete();
+
+            $table->unique(
+                ['user_id', 'vacancy_id'],
+                'favorite_vacancies_complex_uq'
+            );
         });
     }
 

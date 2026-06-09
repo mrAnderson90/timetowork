@@ -13,7 +13,29 @@ return new class extends Migration
     {
         Schema::create('vacancy_tags', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('vacancy_id');
+            $table->unsignedBigInteger('tag_id');
+
             $table->timestamps();
+
+            $table->index('vacancy_id', 'vacancy_tags_vacancy_idx');
+            $table->index('tag_id', 'vacancy_tags_tag_idx');
+
+            $table->foreign('vacancy_id', 'vacancy_tags_vacancy_fk')
+                ->references('id')
+                ->on('vacancies')
+                ->cascadeOnDelete();
+
+            $table->foreign('tag_id', 'vacancy_tags_tag_fk')
+                ->references('id')
+                ->on('tags')
+                ->cascadeOnDelete();
+
+            $table->unique(
+                ['vacancy_id', 'tag_id'],
+                'vacancy_tags_complex_uq'
+            );
         });
     }
 

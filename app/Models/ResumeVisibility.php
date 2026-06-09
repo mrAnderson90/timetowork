@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RresumeVisibility extends Model
+class ResumeVisibility extends Model
 {
     //
 }
