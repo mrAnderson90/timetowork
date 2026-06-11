@@ -62,4 +62,14 @@ class Vacancy extends Model
             'tag_id'
         );
     }
+
+    public function favoritedBy(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'favorite_vacancies',
+            'vacancy_id',
+            'user_id'
+        );
+    }
 }

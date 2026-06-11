@@ -6,6 +6,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -71,8 +72,12 @@ class User extends Authenticatable
         return $this->hasMany(Resume::class, 'user_id', 'id');
     }
 
-    public function favoriteVacancies(): HasMany
+    public function favoriteVacancies(): BelongsToMany
     {
-        return $this->hasMany(FavoriteVacancy::class, 'user_id', 'id');
+        return $this->belongsToMany(
+            Vacancy::class,
+            'favorite_vacancies',
+            'user_id',
+            'vacancy_id');
     }
 }
