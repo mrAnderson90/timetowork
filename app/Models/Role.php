@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Role extends Model
 {
+    public const APPLICANT = 1;
+    public const EMPLOYER = 2;
+
     protected $table = 'roles';
+
     protected $guarded = [];
 
     public function users(): HasMany
