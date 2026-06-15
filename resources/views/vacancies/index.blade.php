@@ -6,7 +6,7 @@
     <ul class="list-group list-group-flush">
         @forelse($vacancies as $vacancy)
             <li class="list-group-item">
-                <a href="{{ route('vacancy.show', $vacancy) }}">
+                <a href="{{ route('vacancies.show', $vacancy) }}">
                     {{ $vacancy->title }}
                 </a>
             </li>

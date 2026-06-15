@@ -3,7 +3,7 @@
 @section('content')
     <h3>Vacancies Show Page</h3>
 
-    <a href="{{ route('vacancy.index') }}" class="btn btn-primary mb-3">
+    <a href="{{ route('vacancies.index') }}" class="btn btn-primary mb-3">
         Back
     </a>
 
@@ -30,11 +30,11 @@
             </div>
 
             <div class="d-flex gap-2">
-                <a href="{{ route('vacancy.index', $vacancy) }}" class="btn btn-primary">
+                <a href="{{ route('vacancies.index', $vacancy) }}" class="btn btn-primary">
                     Edit
                 </a>
 
-                <form action="{{ route('vacancy.index', $vacancy) }}" method="POST">
+                <form action="{{ route('vacancies.index', $vacancy) }}" method="POST">
                     @csrf
                     @method('DELETE')
 
