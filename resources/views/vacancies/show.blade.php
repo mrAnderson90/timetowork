@@ -27,14 +27,27 @@
 
                 <p class="fw-bold mb-1">Тип занятости:</p>
                 <p>{{ $vacancy->employmentType->name }}</p>
+
+                <p class="fw-bold mb-1">Уровень заработной платы:</p>
+                <p>{{ $vacancy->salary_from }} - {{ $vacancy->salary_to }}</p>
+
+                <p class="fw-bold mb-1">Город:</p>
+                <p>{{ $vacancy->city }}</p>
+
+                <p class="fw-bold mb-1">Требования к опыту работы:</p>
+                <p>{{ $vacancy->experienceLevel->name }}</p>
+
+                <p class="fw-bold mb-1">Статус вакансии:</p>
+                <p>{{ $vacancy->status->name }}</p>
+
             </div>
 
             <div class="d-flex gap-2">
-                <a href="{{ route('vacancies.index', $vacancy) }}" class="btn btn-primary">
+                <a href="{{ route('vacancies.edit', $vacancy) }}" class="btn btn-primary">
                     Edit
                 </a>
 
-                <form action="{{ route('vacancies.index', $vacancy) }}" method="POST">
+                <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST">
                     @csrf
                     @method('DELETE')
 
