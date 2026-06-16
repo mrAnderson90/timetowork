@@ -14,11 +14,8 @@ class SkillSeeder extends Seeder
     public function run(): void
     {
         DB::table('skills')->insert([
-            [
-                'name' => 'PHP',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            [ 'name' => 'PHP', 'created_at' => now(), 'updated_at' => now() ],
+            [ 'name' => 'JavaScript', 'created_at' => now(), 'updated_at' => now() ],
             [
                 'name' => 'Laravel',
                 'created_at' => now(),
@@ -34,6 +31,7 @@ class SkillSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
             [
                 'name' => 'Python',
                 'created_at' => now(),
