@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\EmploymentType;
 use App\Models\ExperienceLevel;
+use App\Models\Skill;
+use App\Models\Tag;
 use App\Models\Vacancy;
 use App\Models\VacancyCategory;
 use App\Models\VacancyStatus;
@@ -43,12 +45,16 @@ class VacancyController extends Controller
         $employmentTypes = EmploymentType::all();
         $experienceLevels = ExperienceLevel::all();
         $vacancyStatuses = VacancyStatus::all();
+        $skills = Skill::all();
+        $tags = Tag::all();
 
         return view('vacancies.create', compact([
             'categories',
             'employmentTypes',
             'experienceLevels',
             'vacancyStatuses',
+            'skills',
+            'tags',
         ]));
     }
 
@@ -64,11 +70,26 @@ class VacancyController extends Controller
             'employment_type_id' => [ 'required', 'integer' ],
             'experience_level_id' => [ 'required', 'integer' ],
             'vacancy_status_id' => [ 'required', 'integer' ],
+            'tags' => [ 'nullable', 'array' ],
+            'tags.*' => [ 'integer' ],
+//            'tags.*' => ['exists:tags,id'],
+            'skills' => [ 'nullable', 'array' ],
+            'skills.*' => [ 'integer' ],
+//            'skills.*' => ['exists:skills,id'],
         ]);
+
+        $tags = $data['tags'] ?? [];
+        $skills = $data['skills'] ?? [];
+
+        unset($data['tags'], $data['skills']);
 
         $data['company_id'] = 1;
 
-        Vacancy::create($data);
+//        dd($data);
+
+        $vacancy = Vacancy::create($data);
+        $vacancy->tags()->attach($tags);
+        $vacancy->skills()->attach($skills);
 
         return redirect()->route('vacancies.index');
     }

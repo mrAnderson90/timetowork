@@ -60,7 +60,7 @@
             <label for="city" class="form-city">Укажите город</label>
             <input
                 value="{{ old('city') }}"
-                type="text" class="form-control" id="salary_from" name="city" placeholder="Москва"
+                type="text" class="form-control" id="city" name="city" placeholder="Москва"
             >
             @error('city')
             <p class="text-danger">{{ $message }}</p>
@@ -87,6 +87,28 @@
                         {{ old('experience_level_id') == $level->id ? 'selected' : '' }}
                         value="{{ $level->id }}">{{ $level->name }}
                     </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="tags" class="form-label">Выберите теги:</label>
+            <select class="form-select" name="tags[]" id="tags" multiple>
+                @foreach($tags as $tag)
+                    <option value="{{ $tag->id }}"
+                        {{ in_array($tag->id, old('tags', [])) ? 'selected' : '' }}
+                    >{{ $tag->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="skills" class="form-label">Укажите необходимые навыки:</label>
+            <select class="form-select" name="skills[]" id="skills" multiple>
+                @foreach($skills as $skill)
+                    <option value="{{ $skill->id }}"
+                        {{ in_array($skill->id, old('skills', [])) ? 'selected' : '' }}
+                    >{{ $skill->name }}</option>
                 @endforeach
             </select>
         </div>
