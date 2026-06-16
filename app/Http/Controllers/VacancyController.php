@@ -31,6 +31,7 @@ class VacancyController extends Controller
             'category',
             'employmentType',
             'experienceLevel',
+            'skills',
             'tags',
         ]);
 
@@ -39,8 +40,6 @@ class VacancyController extends Controller
 
     public function create()
     {
-        // TODO: Настроить установку связанных Skills и Tags
-
         $categories = VacancyCategory::all();
         $employmentTypes = EmploymentType::all();
         $experienceLevels = ExperienceLevel::all();
@@ -96,12 +95,12 @@ class VacancyController extends Controller
 
     public function edit(Vacancy $vacancy)
     {
-        // TODO: доработать метод, пока сырой
         $vacancy->load([
             'company',
             'category',
             'employmentType',
             'experienceLevel',
+            'skills',
             'tags',
         ]);
 
@@ -109,17 +108,21 @@ class VacancyController extends Controller
         $employmentTypes = EmploymentType::all();
         $experienceLevels = ExperienceLevel::all();
         $vacancyStatuses = VacancyStatus::all();
+        $skills = Skill::all();
+        $tags = Tag::all();
 
-        return view('vacancies.create', compact([
+        return view('vacancies.edit', compact([
             'categories',
             'employmentTypes',
             'experienceLevels',
             'vacancyStatuses',
+            'tags',
+            'skills',
             'vacancy',
         ]));
     }
 
-    public function update()
+    public function update(Vacancy $vacancy)
     {
         // TODO: доработать метод, пока сырой
 
@@ -133,7 +136,28 @@ class VacancyController extends Controller
             'employment_type_id' => [ 'required', 'integer' ],
             'experience_level_id' => [ 'required', 'integer' ],
             'vacancy_status_id' => [ 'required', 'integer' ],
+            'tags' => [ 'nullable', 'array' ],
+            'tags.*' => [ 'integer' ],
+//            'tags.*' => ['exists:tags,id'],
+            'skills' => [ 'nullable', 'array' ],
+            'skills.*' => [ 'integer' ],
+//            'skills.*' => ['exists:skills,id'],
         ]);
 
+        dd($data);
+
+        $tags = $data['tags'] ?? [];
+        $skills = $data['skills'] ?? [];
+
+        unset($data['tags'], $data['skills']);
+
+        $data['company_id'] = 1;
+
+
+        $vacancy = Vacancy::create($data);
+        $vacancy->tags()->attach($tags);
+        $vacancy->skills()->attach($skills);
+
+        return redirect()->route('vacancies.index');
     }
 }
