@@ -15,8 +15,8 @@ class Tag extends Model
     {
         return $this->belongsToMany(
             Vacancy::class,
-            'vacancy_sills',
-            'skill_id',
+            'vacancy_tags',
+            'tag_id',
             'vacancy_id'
         );
     }

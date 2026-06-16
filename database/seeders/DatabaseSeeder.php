@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder
             VacancyCategorySeeder::class,
             SkillSeeder::class,
             TagSeeder::class,
+
+            DemoDataSeeder::class,
+            PivotDataSeeder::class,
         ]);
     }
 }

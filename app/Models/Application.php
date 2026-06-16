@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Application extends Model
 {
+    use HasFactory;
+
     protected $table = 'applications';
 
     protected $guarded = [];
@@ -23,6 +26,10 @@ class Application extends Model
 
     public function status(): BelongsTo
     {
-        return $this->belongsTo(ApplicationStatus::class, 'application_status_id', 'id');
+        return $this->belongsTo(
+            ApplicationStatus::class,
+            'application_status_id',
+            'id'
+        );
     }
 }

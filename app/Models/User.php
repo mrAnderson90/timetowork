@@ -78,6 +78,7 @@ class User extends Authenticatable
             Vacancy::class,
             'favorite_vacancies',
             'user_id',
-            'vacancy_id');
+            'vacancy_id'
+        );
     }
 }

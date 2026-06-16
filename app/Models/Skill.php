@@ -15,7 +15,7 @@ class Skill extends Model
     {
         return $this->belongsToMany(
             Resume::class,
-            'resume_sills',
+            'resume_skills',
             'skill_id',
             'resume_id'
         );
@@ -25,10 +25,9 @@ class Skill extends Model
     {
         return $this->belongsToMany(
             Vacancy::class,
-            'vacancy_sills',
+            'vacancy_skills',
             'skill_id',
             'vacancy_id'
         );
     }
-
 }
