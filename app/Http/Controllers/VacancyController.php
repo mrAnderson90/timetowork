@@ -124,8 +124,6 @@ class VacancyController extends Controller
 
     public function update(Vacancy $vacancy)
     {
-        // TODO: доработать метод, пока сырой
-
         $data = request()->validate([
             'title' => [ 'required', 'string', 'max:255' ],
             'vacancy_category_id' => [ 'required', 'integer' ],
@@ -137,14 +135,12 @@ class VacancyController extends Controller
             'experience_level_id' => [ 'required', 'integer' ],
             'vacancy_status_id' => [ 'required', 'integer' ],
             'tags' => [ 'nullable', 'array' ],
-            'tags.*' => [ 'integer' ],
-//            'tags.*' => ['exists:tags,id'],
+//            'tags.*' => [ 'integer' ],
+            'tags.*' => ['integer', 'exists:tags,id'],
             'skills' => [ 'nullable', 'array' ],
-            'skills.*' => [ 'integer' ],
-//            'skills.*' => ['exists:skills,id'],
+//            'skills.*' => [ 'integer' ],
+            'skills.*' => ['integer', 'exists:skills,id'],
         ]);
-
-        dd($data);
 
         $tags = $data['tags'] ?? [];
         $skills = $data['skills'] ?? [];
@@ -154,10 +150,16 @@ class VacancyController extends Controller
         $data['company_id'] = 1;
 
 
-        $vacancy = Vacancy::create($data);
-        $vacancy->tags()->attach($tags);
-        $vacancy->skills()->attach($skills);
+        $vacancy->update($data);
+        $vacancy->tags()->sync($tags);
+        $vacancy->skills()->sync($skills);
 
+        return redirect()->route('vacancies.index');
+    }
+
+    public function destroy(Vacancy $vacancy)
+    {
+        $vacancy->delete();
         return redirect()->route('vacancies.index');
     }
 }

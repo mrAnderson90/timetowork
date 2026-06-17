@@ -7,7 +7,7 @@
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input
-                value="{{ $vacancy->title }}"
+                value="{{ old('title', $vacancy->title) }}"
                 type="text" class="form-control" id="title" name="title" placeholder="Title"
             >
             @error('title')
@@ -29,7 +29,7 @@
 
         <div class="mb-3">
             <label for="description" class="form-label">Описание вакансии</label>
-            <textarea type="text" class="form-control" id="description" name="description" placeholder="Напишите что-нибудь">{{ $vacancy->description }}</textarea>
+            <textarea type="text" class="form-control" id="description" name="description" placeholder="Напишите что-нибудь">{{ old('description', $vacancy->description) }}</textarea>
             @error('description')
                 <p class="text-danger">{{ $message }}</p>
             @enderror
@@ -38,7 +38,7 @@
         <div class="mb-3">
             <label for="salary_from" class="form-label">Минимальная зарплата</label>
             <input
-                value="{{ $vacancy->salary_from }}"
+                value="{{ old('salary_from', $vacancy->salary_from) }}"
                 type="number" class="form-control" id="salary_from" name="salary_from" placeholder="30000"
             >
             @error('salary_from')
@@ -49,7 +49,7 @@
         <div class="mb-3">
             <label for="salary_to" class="form-label">Максимальная зарплата</label>
             <input
-                value="{{ $vacancy->salary_to }}"
+                value="{{ old('salary_to', $vacancy->salary_to) }}"
                 type="number" class="form-control" id="salary_to" name="salary_to" placeholder="150000"
             >
             @error('salary_to')
@@ -60,7 +60,7 @@
         <div class="mb-3">
             <label for="city" class="form-city">Укажите город</label>
             <input
-                value="{{ $vacancy->city }}"
+                value="{{ old('city', $vacancy->city) }}"
                 type="text" class="form-control" id="city" name="city" placeholder="Москва"
             >
             @error('city')
@@ -97,7 +97,10 @@
             <select class="form-select" name="tags[]" id="tags" multiple>
                 @foreach($tags as $tag)
                     <option value="{{ $tag->id }}"
-                        {{ $vacancy->tags->contains('id', $tag->id) ? 'selected' : '' }}
+                        {{ in_array(
+                            $tag->id,
+                            old('tags', $vacancy->tags->pluck('id')->toArray())
+                        ) ? 'selected' : '' }}
                     >{{ $tag->name }}</option>
                 @endforeach
             </select>
@@ -108,7 +111,10 @@
             <select class="form-select" name="skills[]" id="skills" multiple>
                 @foreach($skills as $skill)
                     <option value="{{ $skill->id }}"
-                        {{ $vacancy->skills->contains('id', $skill->id) ? 'selected' : '' }}
+                        {{ in_array(
+                            $skill->id,
+                            old('skills', $vacancy->skills->pluck('id')->toArray())
+                        ) ? 'selected' : '' }}
                     >{{ $skill->name }}</option>
                 @endforeach
             </select>
