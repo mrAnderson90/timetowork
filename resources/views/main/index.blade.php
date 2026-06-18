@@ -11,5 +11,11 @@
                 Вакансии
             </a>
         </li>
+
+        <li class="list-group-item">
+            <a href="{{ route('resumes.index') }}">
+                Резюме
+            </a>
+        </li>
     </ul>
 @endsection

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,4 @@ Route::get('/', function () {
 //    });
 
 Route::resource('vacancies', VacancyController::class);
+Route::resource('resumes', ResumeController::class);
