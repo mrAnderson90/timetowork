@@ -12,8 +12,4 @@
             </a>
         </li>
     </ul>
-
-    <div class="mt-3">
-        {{ $vacancies->withQueryString()->links() }}
-    </div>
 @endsection
