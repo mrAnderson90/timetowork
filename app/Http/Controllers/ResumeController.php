@@ -47,9 +47,18 @@ class ResumeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Resume $resume)
     {
-        //
+        $resume->load([
+            'employmentType',
+            'visibility',
+            'applications',
+            'experiences',
+            'educations',
+            'skills',
+        ]);
+
+        return view('resumes.show', compact('resume'));
     }
 
     /**
