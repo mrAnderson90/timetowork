@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 // TODO: Настроить логику установки атрибута published_at
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Vacancy\StoreRequest;
+use App\Http\Requests\Vacancy\UpdateRequest;
 use App\Models\EmploymentType;
 use App\Models\ExperienceLevel;
 use App\Models\Skill;
@@ -10,10 +12,17 @@ use App\Models\Tag;
 use App\Models\Vacancy;
 use App\Models\VacancyCategory;
 use App\Models\VacancyStatus;
+use App\Services\Vacancy\Service;
 use Illuminate\Http\Request;
 
 class VacancyController extends Controller
 {
+    private Service $service;
+
+    public function __construct(Service $service)
+    {
+        $this->service = $service;
+    }
     public function index()
     {
         $vacancies = Vacancy::query()
@@ -57,40 +66,14 @@ class VacancyController extends Controller
         ]));
     }
 
-    public function store()
+    public function store(StoreRequest $request)
     {
-        $data = request()->validate([
-            'title' => [ 'required', 'string', 'max:255' ],
-            'vacancy_category_id' => [ 'required', 'integer' ],
-            'description' => [ 'nullable', 'string' ],
-            'salary_from' => [ 'nullable', 'integer' ],
-            'salary_to' => [ 'nullable', 'integer' ],
-            'city' => [ 'nullable', 'string', 'max:255' ],
-            'employment_type_id' => [ 'required', 'integer' ],
-            'experience_level_id' => [ 'required', 'integer' ],
-            'vacancy_status_id' => [ 'required', 'integer' ],
-            'tags' => [ 'nullable', 'array' ],
-            'tags.*' => [ 'integer' ],
-//            'tags.*' => ['exists:tags,id'],
-            'skills' => [ 'nullable', 'array' ],
-            'skills.*' => [ 'integer' ],
-//            'skills.*' => ['exists:skills,id'],
-        ]);
+        $data = $request->validated();
+        $this->service->store($data);
 
-        $tags = $data['tags'] ?? [];
-        $skills = $data['skills'] ?? [];
-
-        unset($data['tags'], $data['skills']);
-
-        $data['company_id'] = 1;
-
-//        dd($data);
-
-        $vacancy = Vacancy::create($data);
-        $vacancy->tags()->attach($tags);
-        $vacancy->skills()->attach($skills);
-
-        return redirect()->route('vacancies.index');
+        return redirect()
+            ->route('vacancies.index')
+            ->with('success', 'Вакансия успешно создана');
     }
 
     public function edit(Vacancy $vacancy)
@@ -122,44 +105,21 @@ class VacancyController extends Controller
         ]));
     }
 
-    public function update(Vacancy $vacancy)
+    public function update(UpdateRequest $request, Vacancy $vacancy)
     {
-        $data = request()->validate([
-            'title' => [ 'required', 'string', 'max:255' ],
-            'vacancy_category_id' => [ 'required', 'integer' ],
-            'description' => [ 'nullable', 'string' ],
-            'salary_from' => [ 'nullable', 'integer' ],
-            'salary_to' => [ 'nullable', 'integer' ],
-            'city' => [ 'nullable', 'string', 'max:255' ],
-            'employment_type_id' => [ 'required', 'integer' ],
-            'experience_level_id' => [ 'required', 'integer' ],
-            'vacancy_status_id' => [ 'required', 'integer' ],
-            'tags' => [ 'nullable', 'array' ],
-//            'tags.*' => [ 'integer' ],
-            'tags.*' => ['integer', 'exists:tags,id'],
-            'skills' => [ 'nullable', 'array' ],
-//            'skills.*' => [ 'integer' ],
-            'skills.*' => ['integer', 'exists:skills,id'],
-        ]);
+        $data = $request->validated();
+        $this->service->update($vacancy, $data);
 
-        $tags = $data['tags'] ?? [];
-        $skills = $data['skills'] ?? [];
-
-        unset($data['tags'], $data['skills']);
-
-        $data['company_id'] = 1;
-
-
-        $vacancy->update($data);
-        $vacancy->tags()->sync($tags);
-        $vacancy->skills()->sync($skills);
-
-        return redirect()->route('vacancies.index');
+        return redirect()
+            ->route('vacancies.index')
+            ->with('success', 'Вакансия успешно обновлена');
     }
 
     public function destroy(Vacancy $vacancy)
     {
         $vacancy->delete();
-        return redirect()->route('vacancies.index');
+        return redirect()
+            ->route('vacancies.index')
+            ->with('success', 'Вакансия успешно удалена');
     }
 }
