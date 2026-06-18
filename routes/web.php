@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [VacancyController::class, 'index']);
+Route::get('/', function () {
+    return view('main.index');
+});
 
 //Route::prefix('vacancies')
 //    ->controller(VacancyController::class)
