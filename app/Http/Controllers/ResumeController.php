@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Resume\StoreRequest;
+use App\Http\Requests\Resume\UpdateRequest;
+use App\Models\EmploymentType;
 use App\Models\Resume;
+use App\Models\ResumeVisibility;
+use App\Models\Skill;
 use App\Services\Resume\Service;
 use Illuminate\Http\Request;
 
@@ -33,15 +38,29 @@ class ResumeController extends Controller
      */
     public function create()
     {
-        //
+        $employmentTypes = EmploymentType::all();
+        $visibilities = ResumeVisibility::all();
+        $skills = Skill::all();
+
+        return view('resumes.create', compact(
+            'employmentTypes',
+            'visibilities',
+            'skills'
+        ));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $this->service->store($data);
+
+        return redirect()
+            ->route('resumes.index')
+            ->with('success', 'Резюме успешно создано');
     }
 
     /**
@@ -52,9 +71,7 @@ class ResumeController extends Controller
         $resume->load([
             'employmentType',
             'visibility',
-            'applications',
             'experiences',
-            'educations',
             'skills',
         ]);
 
@@ -64,24 +81,45 @@ class ResumeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Resume $resume)
     {
-        //
+        $resume->load('skills');
+
+        $employmentTypes = EmploymentType::all();
+        $visibilities = ResumeVisibility::all();
+        $skills = Skill::all();
+
+        return view('resumes.edit', compact(
+            'resume',
+            'employmentTypes',
+            'visibilities',
+            'skills'
+        ));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, Resume $resume)
     {
-        //
+        $data = $request->validated();
+
+        $this->service->update($resume, $data);
+
+        return redirect()
+            ->route('resumes.index')
+            ->with('success', 'Резюме успешно обновлено');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Resume $resume)
     {
-        //
+        $resume->delete();
+
+        return redirect()
+            ->route('resumes.index')
+            ->with('success', 'Резюме успешно удалено');
     }
 }

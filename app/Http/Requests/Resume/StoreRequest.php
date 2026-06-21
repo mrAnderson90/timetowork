@@ -23,7 +23,32 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'string', 'max:255'],
+
+            'about' => ['nullable', 'string'],
+
+            'desired_salary' => ['nullable', 'integer', 'min:0', 'max:1000000'],
+
+            'city' => ['nullable', 'string', 'max:255'],
+
+            'employment_type_id' => [
+                'nullable',
+                'integer',
+                'exists:employment_types,id',
+            ],
+
+            'resume_visibility_id' => [
+                'required',
+                'integer',
+                'exists:resume_visibilities,id',
+            ],
+
+            'skills' => ['nullable', 'array'],
+
+            'skills.*' => [
+                'integer',
+                'exists:skills,id',
+            ],
         ];
     }
 }

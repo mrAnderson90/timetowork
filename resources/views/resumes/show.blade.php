@@ -4,7 +4,7 @@
     <h3>Подробно о резюме</h3>
 
     <a href="{{ route('resumes.index') }}" class="btn btn-primary mb-3">
-        Back
+        Вернуться к списку резюме
     </a>
 
     <div class="card">
@@ -22,56 +22,53 @@
                 <p class="fw-bold mb-1">Тип занятости:</p>
                 <p>{{ $resume->employmentType->name }}</p>
 
-                <p class="fw-bold mb-1">Категория:</p>
-                <p>{{ $resume->category->name }}</p>
-
-                <p class="fw-bold mb-1">Тип занятости:</p>
-                <p>{{ $resume->employmentType->name }}</p>
-
-                <p class="fw-bold mb-1">Уровень заработной платы:</p>
-                <p>{{ $resume->salary_from }} - {{ $resume->salary_to }}</p>
-
                 <p class="fw-bold mb-1">Город:</p>
                 <p>{{ $resume->city }}</p>
 
-                <p class="fw-bold mb-1">Требования к опыту работы:</p>
-                <p>{{ $resume->experienceLevel->name }}</p>
+                <p class="fw-bold mb-1">Желаемый уровень дохода:</p>
+                <p>{{ $resume->desired_salary }}</p>
 
-                <p class="fw-bold mb-1">Статус вакансии:</p>
-                <p>{{ $resume->status->name }}</p>
+                <p class="fw-bold mb-1">Описание:</p>
+                <p>{{ $resume->about }}</p>
 
-                <p class="fw-bold mb-1">Требуемые навыки:</p>
-                <div class="">
-                    @forelse($resume->skills as $skill)
-                        <span class="badge text-bg-light">{{ $skill->name }}</span>
+                <ul class="list-group">
+                    @forelse($resume->experiences as $experience)
+                        <li class="list-group-item">
+                            <p class="fw-bold mb-1">{{ $experience->company_name }}</p>
+                            <p>Должность{{ $experience->position }}</p>
+                        </li>
                     @empty
-                        <span>Навыки не указаны</span>
+                        <li>
+                            <p>Прежних мест работы пока не указано</p>
+                        </li>
                     @endforelse
-                </div>
+                </ul>
 
+                <p class="fw-bold mb-1">Статус резюме (видимость):</p>
+                <p>{{ $resume->visibility->name }}</p>
             </div>
 
             <div class="d-flex gap-2">
-                <a href="{{ route('vacancies.edit', $resume) }}" class="btn btn-primary">
-                    Edit
+                <a href="{{ route('resumes.edit', $resume) }}" class="btn btn-primary">
+                    Редактировать
                 </a>
 
-                <form action="{{ route('vacancies.destroy', $resume) }}" method="POST">
+                <form action="{{ route('resumes.destroy', $resume) }}" method="POST" onsubmit="return confirm('Удалить резюме?')">
                     @csrf
                     @method('DELETE')
 
                     <button type="submit" class="btn btn-danger">
-                        Delete
+                        Удалить
                     </button>
                 </form>
             </div>
 
         </div>
         <div class="card-footer text-body-secondary">
-            @forelse($resume->tags as $tag)
-                <span class="badge text-bg-secondary">{{ $tag->name }}</span>
+            @forelse($resume->skills as $skill)
+                <span class="badge text-bg-secondary">{{ $skill->name }}</span>
             @empty
-                <span>No tags yet</span>
+                <span>Навыки не указаны</span>
             @endforelse
         </div>
     </div>
