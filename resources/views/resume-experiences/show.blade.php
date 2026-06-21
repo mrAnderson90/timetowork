@@ -31,59 +31,11 @@
                 <p class="fw-bold mb-1">Описание:</p>
                 <p>{{ $resume->about }}</p>
 
-                <div class="d-flex justify-content-between gap-2 mt-2">
-                    <p class="fw-bold mb-1">Опыт работы:</p>
-
-                    <a
-                        href="{{ route('resume-experiences.create', $resume) }}"
-                        class=""
-                    >Добавить опыт работы</a>
-                </div>
                 <ul class="list-group">
                     @forelse($resume->experiences as $experience)
                         <li class="list-group-item">
                             <p class="fw-bold mb-1">{{ $experience->company_name }}</p>
-
-                            <p>Должность: {{ $experience->position }}</p>
-
-                            <p class="text-muted">
-                                {{ $experience->date_from }}
-
-                                —
-
-                                {{ $experience->is_current
-                                    ? 'по настоящее время'
-                                    : $experience->date_to }}
-                            </p>
-
-                            @if($experience->description)
-                                <p>
-                                    {{ $experience->description }}
-                                </p>
-                            @endif
-
-                            <div class="d-flex gap-2 mt-2">
-
-                                <a
-                                    href="{{ route('resume-experiences.edit', $experience) }}"
-                                    class="btn btn-sm btn-primary"
-                                >Изменить</a>
-
-                                <form
-                                    action="{{ route('resume-experiences.destroy', $experience) }}"
-                                    method="POST"
-                                    onsubmit="return confirm('Удалить опыт работы?')"
-                                >
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button class="btn btn-sm btn-danger" type="submit">
-                                        Удалить
-                                    </button>
-
-                                </form>
-
-                            </div>
+                            <p>Должность{{ $experience->position }}</p>
                         </li>
                     @empty
                         <li>
@@ -97,10 +49,8 @@
             </div>
 
             <div class="d-flex gap-2">
-                <a href="{{ route('resumes.edit', $resume) }}"
-                   class="btn btn-primary"
-                >
-                    Редактировать резюме
+                <a href="{{ route('resumes.edit', $resume) }}" class="btn btn-primary">
+                    Редактировать
                 </a>
 
                 <form action="{{ route('resumes.destroy', $resume) }}" method="POST" onsubmit="return confirm('Удалить резюме?')">
