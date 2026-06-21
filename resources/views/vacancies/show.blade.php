@@ -56,7 +56,7 @@
                     Edit
                 </a>
 
-                <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST">
+                <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST" onsubmit="return confirm('Удалить вакансию?')">
                     @csrf
                     @method('DELETE')
 
