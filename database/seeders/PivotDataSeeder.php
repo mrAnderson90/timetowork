@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Resume;
 use App\Models\Skill;
+use App\Models\Tag;
 use App\Models\Vacancy;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -33,7 +34,7 @@ class PivotDataSeeder extends Seeder
             );
 
             $vacancy->tags()->attach(
-                Skill::query()
+                Tag::query()
                     ->inRandomOrder()
                     ->limit(rand(1, 5))
                     ->pluck('id')

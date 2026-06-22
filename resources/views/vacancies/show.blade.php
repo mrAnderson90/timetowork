@@ -40,6 +40,15 @@
                 <p class="fw-bold mb-1">Статус вакансии:</p>
                 <p>{{ $vacancy->status->name }}</p>
 
+                <p class="fw-bold mb-1">Требуемые навыки:</p>
+                <div class="">
+                    @forelse($vacancy->skills as $skill)
+                        <span class="badge text-bg-light">{{ $skill->name }}</span>
+                    @empty
+                        <span>Навыки не указаны</span>
+                    @endforelse
+                </div>
+
             </div>
 
             <div class="d-flex gap-2">
@@ -47,7 +56,7 @@
                     Edit
                 </a>
 
-                <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST">
+                <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST" onsubmit="return confirm('Удалить вакансию?')">
                     @csrf
                     @method('DELETE')
 

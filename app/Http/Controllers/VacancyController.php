@@ -3,15 +3,26 @@
 namespace App\Http\Controllers;
 // TODO: Настроить логику установки атрибута published_at
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Vacancy\StoreRequest;
+use App\Http\Requests\Vacancy\UpdateRequest;
 use App\Models\EmploymentType;
 use App\Models\ExperienceLevel;
+use App\Models\Skill;
+use App\Models\Tag;
 use App\Models\Vacancy;
 use App\Models\VacancyCategory;
 use App\Models\VacancyStatus;
+use App\Services\Vacancy\Service;
 use Illuminate\Http\Request;
 
 class VacancyController extends Controller
 {
+    private Service $service;
+
+    public function __construct(Service $service)
+    {
+        $this->service = $service;
+    }
     public function index()
     {
         $vacancies = Vacancy::query()
@@ -29,6 +40,7 @@ class VacancyController extends Controller
             'category',
             'employmentType',
             'experienceLevel',
+            'skills',
             'tags',
         ]);
 
@@ -37,50 +49,41 @@ class VacancyController extends Controller
 
     public function create()
     {
-        // TODO: Настроить установку связанных Skills и Tags
-
         $categories = VacancyCategory::all();
         $employmentTypes = EmploymentType::all();
         $experienceLevels = ExperienceLevel::all();
         $vacancyStatuses = VacancyStatus::all();
+        $skills = Skill::all();
+        $tags = Tag::all();
 
         return view('vacancies.create', compact([
             'categories',
             'employmentTypes',
             'experienceLevels',
             'vacancyStatuses',
+            'skills',
+            'tags',
         ]));
     }
 
-    public function store()
+    public function store(StoreRequest $request)
     {
-        $data = request()->validate([
-            'title' => [ 'required', 'string', 'max:255' ],
-            'vacancy_category_id' => [ 'required', 'integer' ],
-            'description' => [ 'nullable', 'string' ],
-            'salary_from' => [ 'nullable', 'integer' ],
-            'salary_to' => [ 'nullable', 'integer' ],
-            'city' => [ 'nullable', 'string', 'max:255' ],
-            'employment_type_id' => [ 'required', 'integer' ],
-            'experience_level_id' => [ 'required', 'integer' ],
-            'vacancy_status_id' => [ 'required', 'integer' ],
-        ]);
+        $data = $request->validated();
+        $this->service->store($data);
 
-        $data['company_id'] = 1;
-
-        Vacancy::create($data);
-
-        return redirect()->route('vacancies.index');
+        return redirect()
+            ->route('vacancies.index')
+            ->with('success', 'Вакансия успешно создана');
     }
 
     public function edit(Vacancy $vacancy)
     {
-        // TODO: доработать метод, пока сырой
         $vacancy->load([
             'company',
             'category',
             'employmentType',
             'experienceLevel',
+            'skills',
             'tags',
         ]);
 
@@ -88,31 +91,35 @@ class VacancyController extends Controller
         $employmentTypes = EmploymentType::all();
         $experienceLevels = ExperienceLevel::all();
         $vacancyStatuses = VacancyStatus::all();
+        $skills = Skill::all();
+        $tags = Tag::all();
 
-        return view('vacancies.create', compact([
+        return view('vacancies.edit', compact([
             'categories',
             'employmentTypes',
             'experienceLevels',
             'vacancyStatuses',
+            'tags',
+            'skills',
             'vacancy',
         ]));
     }
 
-    public function update()
+    public function update(UpdateRequest $request, Vacancy $vacancy)
     {
-        // TODO: доработать метод, пока сырой
+        $data = $request->validated();
+        $this->service->update($vacancy, $data);
 
-        $data = request()->validate([
-            'title' => [ 'required', 'string', 'max:255' ],
-            'vacancy_category_id' => [ 'required', 'integer' ],
-            'description' => [ 'nullable', 'string' ],
-            'salary_from' => [ 'nullable', 'integer' ],
-            'salary_to' => [ 'nullable', 'integer' ],
-            'city' => [ 'nullable', 'string', 'max:255' ],
-            'employment_type_id' => [ 'required', 'integer' ],
-            'experience_level_id' => [ 'required', 'integer' ],
-            'vacancy_status_id' => [ 'required', 'integer' ],
-        ]);
+        return redirect()
+            ->route('vacancies.index')
+            ->with('success', 'Вакансия успешно обновлена');
+    }
 
+    public function destroy(Vacancy $vacancy)
+    {
+        $vacancy->delete();
+        return redirect()
+            ->route('vacancies.index')
+            ->with('success', 'Вакансия успешно удалена');
     }
 }
