@@ -20,7 +20,7 @@
 
 <main class="container py-4">
     @if($errors->any())
-        <div class="alert alert-danger">
+        <div class="alert alert-danger mb-2">
             <ul>
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -29,13 +29,14 @@
         </div>
     @endif
 
-    @yield('content')
-
     @if(session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success mb-2">
             {{ session('success') }}
         </div>
     @endif
+
+    @yield('content')
+
 </main>
 
 </body>
