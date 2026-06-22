@@ -31,66 +31,139 @@
                 <p class="fw-bold mb-1">Описание:</p>
                 <p>{{ $resume->about }}</p>
 
-                <div class="d-flex justify-content-between gap-2 mt-2">
-                    <p class="fw-bold mb-1">Опыт работы:</p>
+                <div>
+                    <div class="d-flex justify-content-between gap-2 mt-2">
+                        <p class="fw-bold mb-1">Опыт работы:</p>
 
-                    <a
-                        href="{{ route('resume-experiences.create', $resume) }}"
-                        class=""
-                    >Добавить опыт работы</a>
-                </div>
-                <ul class="list-group">
-                    @forelse($resume->experiences as $experience)
-                        <li class="list-group-item">
-                            <p class="fw-bold mb-1">{{ $experience->company_name }}</p>
+                        <a
+                            href="{{ route('resume-experiences.create', $resume) }}"
+                            class=""
+                        >Добавить опыт работы</a>
+                    </div>
 
-                            <p>Должность: {{ $experience->position }}</p>
+                    <ul class="list-group">
+                        @forelse($resume->experiences as $experience)
+                            <li class="list-group-item">
+                                <p class="fw-bold mb-1">{{ $experience->company_name }}</p>
 
-                            <p class="text-muted">
-                                {{ $experience->date_from }}
+                                <p>Должность: {{ $experience->position }}</p>
 
-                                —
+                                <p class="text-muted">
+                                    {{ $experience->date_from }}
 
-                                {{ $experience->is_current
-                                    ? 'по настоящее время'
-                                    : $experience->date_to }}
-                            </p>
+                                    —
 
-                            @if($experience->description)
-                                <p>
-                                    {{ $experience->description }}
+                                    {{ $experience->is_current
+                                        ? 'по настоящее время'
+                                        : $experience->date_to }}
                                 </p>
-                            @endif
 
-                            <div class="d-flex gap-2 mt-2">
+                                @if($experience->description)
+                                    <p>
+                                        {{ $experience->description }}
+                                    </p>
+                                @endif
 
-                                <a
-                                    href="{{ route('resume-experiences.edit', $experience) }}"
-                                    class="btn btn-sm btn-primary"
-                                >Изменить</a>
+                                <div class="d-flex gap-2 mt-2">
 
-                                <form
-                                    action="{{ route('resume-experiences.destroy', $experience) }}"
-                                    method="POST"
-                                    onsubmit="return confirm('Удалить опыт работы?')"
-                                >
-                                    @csrf
-                                    @method('DELETE')
+                                    <a
+                                        href="{{ route('resume-experiences.edit', $experience) }}"
+                                        class="btn btn-sm btn-primary"
+                                    >Изменить</a>
 
-                                    <button class="btn btn-sm btn-danger" type="submit">
-                                        Удалить
-                                    </button>
+                                    <form
+                                        action="{{ route('resume-experiences.destroy', $experience) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Удалить опыт работы?')"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
 
-                                </form>
+                                        <button class="btn btn-sm btn-danger" type="submit">
+                                            Удалить
+                                        </button>
 
-                            </div>
-                        </li>
-                    @empty
-                        <li>
-                            <p>Прежних мест работы пока не указано</p>
-                        </li>
-                    @endforelse
-                </ul>
+                                    </form>
+
+                                </div>
+                            </li>
+                        @empty
+                            <li class="list-group-item">Прежних мест работы пока не указано</li>
+                        @endforelse
+                    </ul>
+                </div>
+
+                <div>
+                    <div class="d-flex justify-content-between gap-2 mt-2">
+                        <p class="fw-bold mb-1">Образование:</p>
+
+                        <a
+                            href="{{ route('resume-educations.create', $resume) }}"
+                            class=""
+                        >Добавить место учёбы</a>
+                    </div>
+
+                    <ul class="list-group">
+                        @forelse($resume->educations as $education)
+
+                            <li class="list-group-item">
+
+                                <p class="fw-bold">
+                                    {{ $education->institution }}
+                                </p>
+
+                                <p>
+                                    {{ $education->degree->name }}
+                                </p>
+
+                                @if($education->faculty)
+                                    <p>
+                                        Факультет:
+                                        {{ $education->faculty }}
+                                    </p>
+                                @endif
+
+                                @if($education->specialization)
+                                    <p>
+                                        Специальность:
+                                        {{ $education->specialization }}
+                                    </p>
+                                @endif
+
+                                <div class="d-flex gap-2 mt-2">
+
+                                    <a
+                                        href="{{ route('resume-educations.edit', $education) }}"
+                                        class="btn btn-sm btn-primary"
+                                    >Изменить</a>
+
+                                    <form
+                                        action="{{ route('resume-educations.destroy', $education) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Удалить место учёбы?')"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button class="btn btn-sm btn-danger" type="submit">
+                                            Удалить
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </li>
+
+                        @empty
+
+                            <li class="list-group-item">
+                                Образование не указано
+                            </li>
+
+                        @endforelse
+                    </ul>
+                </div>
 
                 <p class="fw-bold mb-1">Статус резюме (видимость):</p>
                 <p>{{ $resume->visibility->name }}</p>
@@ -103,7 +176,8 @@
                     Редактировать резюме
                 </a>
 
-                <form action="{{ route('resumes.destroy', $resume) }}" method="POST" onsubmit="return confirm('Удалить резюме?')">
+                <form action="{{ route('resumes.destroy', $resume) }}" method="POST"
+                      onsubmit="return confirm('Удалить резюме?')">
                     @csrf
                     @method('DELETE')
 

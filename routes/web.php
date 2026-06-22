@@ -11,6 +11,7 @@ Route::get('/', function () {
 Route::resource('vacancies', VacancyController::class);
 Route::resource('resumes', ResumeController::class);
 
+// ResumeExperiences
 Route::prefix('resumes/{resume}')
     ->name('resume-experiences.')
     ->group(function () {
@@ -44,5 +45,42 @@ Route::prefix('resume-experiences')
         Route::delete(
             '/{experience}',
             [\App\Http\Controllers\ResumeExperienceController::class, 'destroy']
+        )->name('destroy');
+    });
+
+// ResumeEducations
+Route::prefix('resumes/{resume}')
+    ->name('resume-educations.')
+    ->group(function () {
+
+        Route::get(
+            '/educations/create',
+            [\App\Http\Controllers\ResumeEducationController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            '/educations',
+            [\App\Http\Controllers\ResumeEducationController::class, 'store']
+        )->name('store');
+
+    });
+
+Route::prefix('resume-educations')
+    ->name('resume-educations.')
+    ->group(function () {
+
+        Route::get(
+            '/{education}/edit',
+            [\App\Http\Controllers\ResumeEducationController::class, 'edit']
+        )->name('edit');
+
+        Route::patch(
+            '/{education}',
+            [\App\Http\Controllers\ResumeEducationController::class, 'update']
+        )->name('update');
+
+        Route::delete(
+            '/{education}',
+            [\App\Http\Controllers\ResumeEducationController::class, 'destroy']
         )->name('destroy');
     });
