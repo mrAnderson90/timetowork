@@ -72,6 +72,8 @@ class ResumeController extends Controller
             'employmentType',
             'visibility',
             'experiences',
+            'educations',
+            'educations.degree',
             'skills',
         ]);
 

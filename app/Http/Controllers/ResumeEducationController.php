@@ -11,7 +11,7 @@ use App\Services\ResumeEducation\Service;
 
 class ResumeEducationController extends Controller
 {
-    private $service;
+    private Service $service;
 
     public function __construct(Service $service)
     {
@@ -49,7 +49,7 @@ class ResumeEducationController extends Controller
 
         return redirect()
             ->route('resumes.show', $resume)
-            ->with('success', 'Образовние добавлено');
+            ->with('success', 'Образование добавлено');
     }
 
     /**
@@ -83,7 +83,7 @@ class ResumeEducationController extends Controller
 
         return redirect()
             ->route('resumes.show', $education->resume)
-            ->with('success', 'Образовние обновлено');
+            ->with('success', 'Образование обновлено');
     }
 
     /**

@@ -27,8 +27,8 @@ class StoreRequest extends FormRequest
             'faculty' => ['nullable', 'string', 'max:255'],
             'specialization' => ['nullable', 'string', 'max:255'],
             'degree_id' => ['required', 'integer', 'exists:education_degrees,id'],
-            'date_from' => ['required', 'date'],
-            'date_to' => ['required', 'date', 'after_or_equal:date_from'],
+            'date_from' => ['nullable', 'date'],
+            'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
         ];
     }
 }

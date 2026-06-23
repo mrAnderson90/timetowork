@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3>Добавить место обучения</h3>
+    <h3>Редактировать место обучения</h3>
 
     <form action="{{ route('resume-educations.update', $education) }}" method="POST">
         @csrf
@@ -45,7 +45,7 @@
             <select name="degree_id" class="form-select">
                 @foreach($degrees as $degree)
                     <option
-                        {{ old('degree_id', $education->degree->id) == $degree->id ? 'selected' : ''}}
+                        {{ old('degree_id', $education->degree_id) == $degree->id ? 'selected' : ''}}
                         value="{{ $degree->id }}"
                     >
                         {{ $degree->name }}

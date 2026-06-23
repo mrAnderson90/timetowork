@@ -24,13 +24,25 @@ class UpdateRequest extends FormRequest
     {
         return [
             'title' => [ 'required', 'string', 'max:255' ],
-            'vacancy_category_id' => [ 'required', 'integer' ],
+            'vacancy_category_id' => [
+                'required',
+                'integer',
+                'exists:categories.id',
+            ],
             'description' => [ 'nullable', 'string' ],
             'salary_from' => [ 'nullable', 'integer' ],
             'salary_to' => [ 'nullable', 'integer' ],
             'city' => [ 'nullable', 'string', 'max:255' ],
-            'employment_type_id' => [ 'required', 'integer' ],
-            'experience_level_id' => [ 'required', 'integer' ],
+            'employment_type_id' => [
+                'required',
+                'integer',
+                'exists:employment_types.id',
+            ],
+            'experience_level_id' => [
+                'required',
+                'integer',
+                'exists:experience_levels.id',
+            ],
             'vacancy_status_id' => [ 'required', 'integer' ],
             'tags' => [ 'nullable', 'array' ],
             'tags.*' => ['integer', 'exists:tags,id'],

@@ -123,7 +123,13 @@
                                     </p>
                                 @endif
 
-                                @if($education->specialization)
+                                <p class="text-muted">
+                                    {{ \Carbon\Carbon::parse($education->date_from)->format('d.m.Y') }}
+                                    —
+                                    {{ \Carbon\Carbon::parse($education->date_to)->format('d.m.Y') }}
+                                </p>
+
+                            @if($education->specialization)
                                     <p>
                                         Специальность:
                                         {{ $education->specialization }}
