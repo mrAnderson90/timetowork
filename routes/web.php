@@ -84,3 +84,40 @@ Route::prefix('resume-educations')
             [\App\Http\Controllers\ResumeEducationController::class, 'destroy']
         )->name('destroy');
     });
+
+// ResumePhoto
+Route::prefix('resumes/{resume}')
+    ->name('resume-photos.')
+    ->group(function () {
+
+        Route::get(
+            '/photos/create',
+            [\App\Http\Controllers\ResumePhotoController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            '/photos',
+            [\App\Http\Controllers\ResumePhotoController::class, 'store']
+        )->name('store');
+
+    });
+
+Route::prefix('resume-photos')
+    ->name('resume-photos.')
+    ->group(function () {
+
+//        Route::get(
+//            '/{photo}/edit',
+//            [\App\Http\Controllers\ResumePhotoController::class, 'edit']
+//        )->name('edit');
+
+        Route::patch(
+            '/{photo}',
+            [\App\Http\Controllers\ResumePhotoController::class, 'update']
+        )->name('update');
+
+        Route::delete(
+            '/{photo}',
+            [\App\Http\Controllers\ResumePhotoController::class, 'destroy']
+        )->name('destroy');
+    });

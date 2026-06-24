@@ -18,7 +18,18 @@
                 {{ $resume->title }}
             </h5>
 
-            <div class="card-text mb-4">
+            <div class="card-text mb-3">
+                @if($resume->mainPhoto)
+                    <div class="mb-3">
+                        <img
+                            src="{{ asset('storage/' . $resume->mainPhoto->path) }}"
+                            class="img-thumbnail"
+                            width="250"
+                            alt=""
+                        >
+                    </div>
+                @endif
+
                 <p class="fw-bold mb-1">Тип занятости:</p>
                 <p>{{ $resume->employmentType->name }}</p>
 
@@ -129,7 +140,7 @@
                                     {{ \Carbon\Carbon::parse($education->date_to)->format('d.m.Y') }}
                                 </p>
 
-                            @if($education->specialization)
+                                @if($education->specialization)
                                     <p>
                                         Специальность:
                                         {{ $education->specialization }}
@@ -169,6 +180,81 @@
 
                         @endforelse
                     </ul>
+                </div>
+
+                <h5>Фотографии</h5>
+
+                <div>
+                    <a
+                        href="{{ route('resume-photos.create', $resume) }}"
+                        class="btn btn-primary"
+                    >
+                        Добавить фотографию
+                    </a>
+                </div>
+
+                <div class="row">
+                    @foreach($resume->photos as $photo)
+                        <div class="col-md-3 mb-3">
+
+                            <div class="position-relative border rounded p-2">
+
+                                <img
+                                    src="{{ asset('storage/' . $photo->path) }}"
+                                    class="img-fluid rounded"
+                                    alt="Фото резюме"
+                                >
+
+                                <div class="position-absolute top-0 end-0 m-2">
+
+                                    @if($photo->is_main)
+                                        <span class="badge text-bg-success">Главное</span>
+                                    @else
+
+                                        <form
+                                            action="{{ route('resume-photos.update', $photo) }}"
+                                            method="POST"
+                                        >
+                                            @csrf
+                                            @method('PATCH')
+
+                                            <input
+                                                type="hidden"
+                                                name="is_main"
+                                                value="1"
+                                            >
+
+                                            <button type="submit" class="btn btn-sm btn-warning">
+                                                Сделать главной
+                                            </button>
+                                        </form>
+
+                                    @endif
+
+                                </div>
+
+                            </div>
+
+                            <form
+                                action="{{ route('resume-photos.destroy', $photo) }}"
+                                method="POST"
+                                class="mt-2"
+                                onsubmit="return confirm('Удалить фотографию?')"
+                            >
+                                @csrf
+                                @method('DELETE')
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-danger btn-sm w-100"
+                                >
+                                    Удалить
+                                </button>
+
+                            </form>
+
+                        </div>
+                    @endforeach
                 </div>
 
                 <p class="fw-bold mb-1">Статус резюме (видимость):</p>

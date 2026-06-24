@@ -75,6 +75,8 @@ class ResumeController extends Controller
             'educations',
             'educations.degree',
             'skills',
+            'photos',
+            'mainPhoto',
         ]);
 
         return view('resumes.show', compact('resume'));
