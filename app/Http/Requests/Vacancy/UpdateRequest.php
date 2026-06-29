@@ -27,7 +27,7 @@ class UpdateRequest extends FormRequest
             'vacancy_category_id' => [
                 'required',
                 'integer',
-                'exists:categories.id',
+                'exists:vacancy_categories,id',
             ],
             'description' => [ 'nullable', 'string' ],
             'salary_from' => [ 'nullable', 'integer' ],
@@ -36,12 +36,12 @@ class UpdateRequest extends FormRequest
             'employment_type_id' => [
                 'required',
                 'integer',
-                'exists:employment_types.id',
+                'exists:employment_types,id',
             ],
             'experience_level_id' => [
                 'required',
                 'integer',
-                'exists:experience_levels.id',
+                'exists:experience_levels,id',
             ],
             'vacancy_status_id' => [ 'required', 'integer' ],
             'tags' => [ 'nullable', 'array' ],

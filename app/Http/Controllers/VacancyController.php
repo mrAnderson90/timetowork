@@ -42,6 +42,9 @@ class VacancyController extends Controller
             'experienceLevel',
             'skills',
             'tags',
+            'applications',
+            'applications.resume',
+            'applications.status',
         ]);
 
         return view('vacancies.show', compact('vacancy'));
