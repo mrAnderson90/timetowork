@@ -14,31 +14,10 @@ class ApplicationStatusSeeder extends Seeder
     public function run(): void
     {
         DB::table('application_statuses')->insert([
-            [
-                'name' => 'новый',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'просмотрен',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'отказано',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'принято',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'приглашён',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            [ 'name' => 'Новый', 'created_at' => now(), 'updated_at' => now()],
+            [ 'name' => 'На рассмотрении',  'created_at' => now(),  'updated_at' => now() ],
+            [ 'name' => 'Приглашение', 'created_at' => now(), 'updated_at' => now() ],
+            [ 'name' => 'Отказ',  'created_at' => now(),  'updated_at' => now() ],
         ]);
     }
 }

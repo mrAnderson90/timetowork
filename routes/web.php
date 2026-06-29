@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
@@ -120,4 +121,42 @@ Route::prefix('resume-photos')
             '/{photo}',
             [\App\Http\Controllers\ResumePhotoController::class, 'destroy']
         )->name('destroy');
+    });
+
+// Applications
+Route::prefix('vacancies/{vacancy}')
+    ->name('applications.')
+    ->group(function () {
+
+        Route::get(
+            '/applications/create',
+            [\App\Http\Controllers\ApplicationController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            '/applications',
+            [\App\Http\Controllers\ApplicationController::class, 'store']
+        )->name('store');
+
+    });
+
+Route::prefix('applications')
+    ->name('applications.')
+    ->group(function () {
+
+        Route::get(
+            '/{application}/edit',
+            [\App\Http\Controllers\ApplicationController::class, 'edit']
+        )->name('edit');
+
+        Route::patch(
+            '/{application}',
+            [\App\Http\Controllers\ApplicationController::class, 'update']
+        )->name('update');
+
+        Route::delete(
+            '/{application}',
+            [\App\Http\Controllers\ApplicationController::class, 'destroy']
+        )->name('destroy');
+
     });
