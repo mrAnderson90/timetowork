@@ -9,9 +9,3 @@
         Поиск вакансий
     </a>
 </li>
-
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('resumes.index') }}">
-        Мои резюме
-    </a>
-</li>

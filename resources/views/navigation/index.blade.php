@@ -20,7 +20,7 @@
                 </li>
 
                 @guest
-                    @include('navigation.partials.applicant-nav')
+                    @include('navigation.partials.guest-nav')
                 @endguest
 
                 @auth
