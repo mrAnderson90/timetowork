@@ -9,12 +9,9 @@ use App\Services\Company\Service;
 
 class CompanyController extends Controller
 {
-    private Service $service;
-
-    public function __construct(Service $service)
-    {
-        $this->service = $service;
-    }
+    public function __construct(
+        private Service $service
+    ) {}
 
     public function index()
     {
@@ -37,10 +34,12 @@ class CompanyController extends Controller
     {
         $this->authorize('create', Company::class);
 
-        $this->service->store($request->validated());
+        $this->service->store(
+            $request->validated()
+        );
 
         return redirect()
-            ->route('companies.index')
+            ->route('employer.companies.index')
             ->with('success', 'Компания успешно создана');
     }
 
@@ -62,10 +61,13 @@ class CompanyController extends Controller
     {
         $this->authorize('update', $company);
 
-        $this->service->update($company, $request->validated());
+        $this->service->update(
+            $company,
+            $request->validated()
+        );
 
         return redirect()
-            ->route('companies.show', $company)
+            ->route('employer.companies.index')
             ->with('success', 'Компания успешно обновлена');
     }
 
@@ -76,7 +78,7 @@ class CompanyController extends Controller
         $company->delete();
 
         return redirect()
-            ->route('companies.index')
+            ->route('employer.companies.index')
             ->with('success', 'Компания успешно удалена');
     }
 }

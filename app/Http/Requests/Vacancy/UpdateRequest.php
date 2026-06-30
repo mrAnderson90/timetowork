@@ -34,9 +34,8 @@ class UpdateRequest extends FormRequest
             'salary_from' => [ 'nullable', 'integer' ],
             'salary_to' => [ 'nullable', 'integer' ],
             'city' => [ 'nullable', 'string', 'max:255' ],
-            Rule::exists('companies', 'id')->where(
-                fn ($query) => $query->where('user_id', auth()->id())
-            ),            'employment_type_id' => [
+            'company_id' => ['required', 'exists:companies,id'],
+            'employment_type_id' => [
                 'required',
                 'integer',
                 'exists:employment_types,id',
@@ -46,7 +45,11 @@ class UpdateRequest extends FormRequest
                 'integer',
                 'exists:experience_levels,id',
             ],
-            'vacancy_status_id' => [ 'required', 'integer' ],
+            'vacancy_status_id' => [
+                'required',
+                'integer',
+                'exists:vacancy_statuses,id',
+            ],
             'tags' => [ 'nullable', 'array' ],
             'tags.*' => ['integer', 'exists:tags,id'],
             'skills' => [ 'nullable', 'array' ],

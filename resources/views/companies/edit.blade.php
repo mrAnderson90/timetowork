@@ -38,7 +38,7 @@
         </div>
 
         <button class="btn btn-primary">
-            Создать
+            Сохранить
         </button>
 
     </form>
