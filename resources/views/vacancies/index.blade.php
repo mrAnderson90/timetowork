@@ -4,9 +4,11 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="h3 mb-0">Список вакансий</h3>
 
-        <a class="btn btn-primary" href="{{ route('vacancies.create') }}">
-            Создать новую вакансию
-        </a>
+        @can('create', App\Models\Vacancy::class)
+            <a class="btn btn-primary" href="{{ route('vacancies.create') }}">
+                Создать новую вакансию
+            </a>
+        @endcan
     </div>
 
     <ul class="list-group list-group-flush">

@@ -79,37 +79,17 @@
 
         <div class="card-footer">
 
-            <div class="d-flex gap-2">
+            @auth
 
-                <a
-                    href="{{ route('vacancies.edit', $vacancy) }}"
-                    class="btn btn-primary"
-                >
-                    Редактировать
-                </a>
+                @if(auth()->user()->isApplicant())
+                    @include('vacancies.partials.applicant-buttons')
+                @endif
 
-                <a
-                    href="{{ route('applications.create', $vacancy) }}"
-                    class="btn btn-success"
-                >
-                    Откликнуться
-                </a>
+                @if(auth()->user()->isEmployer())
+                    @include('vacancies.partials.employer-buttons')
+                @endif
 
-                <form
-                    action="{{ route('vacancies.destroy', $vacancy) }}"
-                    method="POST"
-                    onsubmit="return confirm('Удалить вакансию?')"
-                >
-                    @csrf
-                    @method('DELETE')
-
-                    <button class="btn btn-danger">
-                        Удалить
-                    </button>
-
-                </form>
-
-            </div>
+            @endauth
 
         </div>
 

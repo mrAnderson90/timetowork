@@ -4,6 +4,7 @@ namespace App\Http\Requests\Vacancy;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -33,7 +34,9 @@ class UpdateRequest extends FormRequest
             'salary_from' => [ 'nullable', 'integer' ],
             'salary_to' => [ 'nullable', 'integer' ],
             'city' => [ 'nullable', 'string', 'max:255' ],
-            'employment_type_id' => [
+            Rule::exists('companies', 'id')->where(
+                fn ($query) => $query->where('user_id', auth()->id())
+            ),            'employment_type_id' => [
                 'required',
                 'integer',
                 'exists:employment_types,id',

@@ -52,7 +52,10 @@ class VacancyController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Vacancy::class);
+
         $categories = VacancyCategory::all();
+        $companies = auth()->user()->companies;
         $employmentTypes = EmploymentType::all();
         $experienceLevels = ExperienceLevel::all();
         $vacancyStatuses = VacancyStatus::all();
@@ -61,6 +64,7 @@ class VacancyController extends Controller
 
         return view('vacancies.create', compact([
             'categories',
+            'companies',
             'employmentTypes',
             'experienceLevels',
             'vacancyStatuses',
@@ -71,6 +75,8 @@ class VacancyController extends Controller
 
     public function store(StoreRequest $request)
     {
+        $this->authorize('create', Vacancy::class);
+
         $data = $request->validated();
         $this->service->store($data);
 
@@ -91,6 +97,7 @@ class VacancyController extends Controller
         ]);
 
         $categories = VacancyCategory::all();
+        $companies = auth()->user()->companies;
         $employmentTypes = EmploymentType::all();
         $experienceLevels = ExperienceLevel::all();
         $vacancyStatuses = VacancyStatus::all();
@@ -99,6 +106,7 @@ class VacancyController extends Controller
 
         return view('vacancies.edit', compact([
             'categories',
+            'companies',
             'employmentTypes',
             'experienceLevels',
             'vacancyStatuses',
