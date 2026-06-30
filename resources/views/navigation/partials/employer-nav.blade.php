@@ -5,7 +5,7 @@
 </li>
 
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('vacancies.index') }}">
+    <a class="nav-link" href="{{ route('vacancies.my') }}">
         Мои вакансии
     </a>
 </li>

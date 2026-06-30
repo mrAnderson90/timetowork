@@ -100,7 +100,6 @@ Route::middleware(['auth', 'applicant'])->group(function () {
     Route::prefix('vacancies/{vacancy}')
         ->name('applications.')
         ->group(function () {
-
             Route::get('/applications/create', [ApplicationController::class, 'create'])->name('create');
             Route::post('/applications', [ApplicationController::class, 'store'])->name('store');
 
@@ -127,6 +126,9 @@ Route::middleware(['auth', 'applicant'])->group(function () {
 Route::middleware(['auth', 'employer'])->group(function () {
 
     Route::resource('companies', CompanyController::class);
+
+    Route::get('/my-vacancies', [VacancyController::class, 'my'])
+        ->name('vacancies.my');
 
     Route::resource('vacancies', VacancyController::class)
         ->except(['index', 'show']);

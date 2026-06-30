@@ -50,6 +50,19 @@ class VacancyController extends Controller
         return view('vacancies.show', compact('vacancy'));
     }
 
+    public function my()
+    {
+        $vacancies = Vacancy::query()
+            ->whereHas('company', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->with(['company', 'category'])
+            ->latest()
+            ->paginate(10);
+
+        return view('vacancies.my', compact('vacancies'));
+    }
+
     public function create()
     {
         $this->authorize('create', Vacancy::class);
