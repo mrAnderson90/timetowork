@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <form action="{{ route('vacancies.update', $vacancy) }}" method="POST">
+    <form action="{{ route('employer.vacancies.update', $vacancy) }}" method="POST">
         @csrf
         @method('PATCH')
 

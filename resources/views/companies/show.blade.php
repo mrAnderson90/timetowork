@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <a href="{{ route('companies.index') }}" class="btn btn-secondary mb-3">
+    <a href="{{ route('employer.companies.index') }}" class="btn btn-secondary mb-3">
         Назад
     </a>
 
@@ -58,14 +58,14 @@
             @can('update', $company)
 
                 <a
-                    href="{{ route('companies.edit', $company) }}"
+                    href="{{ route('employer.companies.edit', $company) }}"
                     class="btn btn-primary"
                 >
                     Редактировать
                 </a>
 
                 <form
-                    action="{{ route('companies.destroy', $company) }}"
+                    action="{{ route('employer.companies.destroy', $company) }}"
                     method="POST"
                     class="d-inline"
                 >

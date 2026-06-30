@@ -6,7 +6,7 @@
         <h3 class="mb-0">Мои компании</h3>
 
         @can('create', App\Models\Company::class)
-            <a href="{{ route('companies.create') }}" class="btn btn-primary">
+            <a href="{{ route('employer.companies.create') }}" class="btn btn-primary">
                 Создать компанию
             </a>
         @endcan
@@ -18,7 +18,7 @@
 
             <li class="list-group-item">
 
-                <a href="{{ route('companies.show', $company) }}">
+                <a href="{{ route('employer.companies.show', $company) }}">
                     {{ $company->name }}
                 </a>
 

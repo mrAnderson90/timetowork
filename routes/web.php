@@ -123,17 +123,43 @@ Route::middleware(['auth', 'applicant'])->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'employer'])->group(function () {
+Route::middleware(['auth', 'employer'])
+    ->prefix('employer')
+    ->name('employer.')
+    ->group(function () {
 
-    Route::resource('companies', CompanyController::class);
+        /*
+        |--------------------------------------------------------------------------
+        | Компании
+        |--------------------------------------------------------------------------
+        */
 
-    Route::get('/my-vacancies', [VacancyController::class, 'my'])
-        ->name('vacancies.my');
+        Route::resource('companies', CompanyController::class);
 
-    Route::resource('vacancies', VacancyController::class)
-        ->except(['index', 'show']);
+        /*
+        |--------------------------------------------------------------------------
+        | Вакансии работодателя
+        |--------------------------------------------------------------------------
+        */
 
-});
+        Route::get('/vacancies', [VacancyController::class, 'employerIndex'])
+            ->name('vacancies.index');
+
+        Route::get('/vacancies/create', [VacancyController::class, 'create'])
+            ->name('vacancies.create');
+
+        Route::post('/vacancies', [VacancyController::class, 'store'])
+            ->name('vacancies.store');
+
+        Route::get('/vacancies/{vacancy}/edit', [VacancyController::class, 'edit'])
+            ->name('vacancies.edit');
+
+        Route::patch('/vacancies/{vacancy}', [VacancyController::class, 'update'])
+            ->name('vacancies.update');
+
+        Route::delete('/vacancies/{vacancy}', [VacancyController::class, 'destroy'])
+            ->name('vacancies.destroy');
+    });
 
 /*
 |--------------------------------------------------------------------------

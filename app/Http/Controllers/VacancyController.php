@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 // TODO: Настроить логику установки атрибута published_at
-use App\Http\Controllers\Controller;
+
 use App\Http\Requests\Vacancy\StoreRequest;
 use App\Http\Requests\Vacancy\UpdateRequest;
 use App\Models\EmploymentType;
@@ -13,7 +14,6 @@ use App\Models\Vacancy;
 use App\Models\VacancyCategory;
 use App\Models\VacancyStatus;
 use App\Services\Vacancy\Service;
-use Illuminate\Http\Request;
 
 class VacancyController extends Controller
 {
@@ -23,6 +23,10 @@ class VacancyController extends Controller
     {
         $this->service = $service;
     }
+
+    /**
+     * Публичный список вакансий
+     */
     public function index()
     {
         $vacancies = Vacancy::query()
@@ -33,6 +37,9 @@ class VacancyController extends Controller
         return view('vacancies.index', compact('vacancies'));
     }
 
+    /**
+     * Публичная карточка вакансии
+     */
     public function show(Vacancy $vacancy)
     {
         $vacancy->load([
@@ -50,7 +57,10 @@ class VacancyController extends Controller
         return view('vacancies.show', compact('vacancy'));
     }
 
-    public function my()
+    /**
+     * Кабинет работодателя
+     */
+    public function employerIndex()
     {
         $vacancies = Vacancy::query()
             ->whereHas('company', function ($query) {
@@ -75,31 +85,34 @@ class VacancyController extends Controller
         $skills = Skill::all();
         $tags = Tag::all();
 
-        return view('vacancies.create', compact([
+        return view('vacancies.create', compact(
             'categories',
             'companies',
             'employmentTypes',
             'experienceLevels',
             'vacancyStatuses',
             'skills',
-            'tags',
-        ]));
+            'tags'
+        ));
     }
 
     public function store(StoreRequest $request)
     {
         $this->authorize('create', Vacancy::class);
 
-        $data = $request->validated();
-        $this->service->store($data);
+        $this->service->store(
+            $request->validated()
+        );
 
         return redirect()
-            ->route('vacancies.index')
+            ->route('employer.vacancies.index')
             ->with('success', 'Вакансия успешно создана');
     }
 
     public function edit(Vacancy $vacancy)
     {
+        abort_if($vacancy->company->user_id !== auth()->id(), 403);
+
         $vacancy->load([
             'company',
             'category',
@@ -117,27 +130,29 @@ class VacancyController extends Controller
         $skills = Skill::all();
         $tags = Tag::all();
 
-        return view('vacancies.edit', compact([
+        return view('vacancies.edit', compact(
             'categories',
             'companies',
             'employmentTypes',
             'experienceLevels',
             'vacancyStatuses',
-            'tags',
             'skills',
-            'vacancy',
-        ]));
+            'tags',
+            'vacancy'
+        ));
     }
 
     public function update(UpdateRequest $request, Vacancy $vacancy)
     {
         abort_if($vacancy->company->user_id !== auth()->id(), 403);
 
-        $data = $request->validated();
-        $this->service->update($vacancy, $data);
+        $this->service->update(
+            $vacancy,
+            $request->validated()
+        );
 
         return redirect()
-            ->route('vacancies.index')
+            ->route('employer.vacancies.index')
             ->with('success', 'Вакансия успешно обновлена');
     }
 
@@ -146,8 +161,9 @@ class VacancyController extends Controller
         abort_if($vacancy->company->user_id !== auth()->id(), 403);
 
         $vacancy->delete();
+
         return redirect()
-            ->route('vacancies.index')
+            ->route('employer.vacancies.index')
             ->with('success', 'Вакансия успешно удалена');
     }
 }

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <form action="{{ route('vacancies.store') }}" method="POST">
+    <form action="{{ route('employer.vacancies.store') }}" method="POST">
         @csrf
 
         <div class="mb-3">

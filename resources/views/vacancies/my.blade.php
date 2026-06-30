@@ -6,7 +6,7 @@
 
         <h3 class="mb-0">Мои вакансии</h3>
 
-        <a class="btn btn-primary" href="{{ route('vacancies.create') }}">
+        <a class="btn btn-primary" href="{{ route('employer.vacancies.create') }}">
             Создать вакансию
         </a>
 

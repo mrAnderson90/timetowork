@@ -3,14 +3,14 @@
     <div class="d-flex gap-2">
 
         <a
-            href="{{ route('vacancies.edit', $vacancy) }}"
+            href="{{ route('employer.vacancies.edit', $vacancy) }}"
             class="btn btn-primary"
         >
             Редактировать
         </a>
 
         <form
-            action="{{ route('vacancies.destroy', $vacancy) }}"
+            action="{{ route('employer.vacancies.destroy', $vacancy) }}"
             method="POST"
             onsubmit="return confirm('Удалить вакансию?')"
         >
