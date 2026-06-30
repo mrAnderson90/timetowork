@@ -10,7 +10,7 @@
 </head>
 <body>
 
-@include('layouts.navigation')
+@include('navigation.index')
 
 <main class="container py-4">
 
