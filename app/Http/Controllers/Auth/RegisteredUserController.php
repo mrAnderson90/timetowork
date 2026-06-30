@@ -62,8 +62,10 @@ class RegisteredUserController extends Controller
 
             'password' => [
                 'required',
+                'string',
+                'min:4',
                 'confirmed',
-                Rules\Password::defaults(),
+//                Rules\Password::defaults(),
             ],
         ]);
 
@@ -73,6 +75,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('vacancies.index'));
     }
 }
