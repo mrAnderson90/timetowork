@@ -34,7 +34,9 @@ class ApplicationController extends Controller
      */
     public function create(Vacancy $vacancy)
     {
-        $resumes = Resume::all();
+        $resumes = Resume::query()
+            ->where('user_id', auth()->id())
+            ->get();
 
         return view(
             'applications.create',
@@ -69,6 +71,8 @@ class ApplicationController extends Controller
      */
     public function edit(Application $application)
     {
+        abort_if($application->vacancy->user_id !== auth()->id(), 403);
+
         $statuses = ApplicationStatus::all();
 
         return view(
@@ -82,6 +86,8 @@ class ApplicationController extends Controller
      */
     public function update(UpdateRequest $request, Application $application)
     {
+        abort_if($application->vacancy->user_id !== auth()->id(), 403);
+
         $data = $request->validated();
 
         $this->service->update($application, $data);

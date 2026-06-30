@@ -12,8 +12,7 @@ class Service
 
         unset($data['skills']);
 
-        // временно до авторизации
-        $data['user_id'] = 1;
+        $data['user_id'] = auth()->id();
 
         $resume = Resume::create($data);
 

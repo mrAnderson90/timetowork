@@ -43,7 +43,7 @@ class ResumePhotoController extends Controller
             );
     }
 
-    public function update( UpdateRequest $request,  ResumePhoto $photo)
+    public function update(UpdateRequest $request, ResumePhoto $photo)
     {
         $data = $request->validated();
 
