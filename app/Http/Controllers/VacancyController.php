@@ -110,6 +110,8 @@ class VacancyController extends Controller
 
     public function update(UpdateRequest $request, Vacancy $vacancy)
     {
+        abort_if($vacancy->company->user_id !== auth()->id(), 403);
+
         $data = $request->validated();
         $this->service->update($vacancy, $data);
 
@@ -120,6 +122,8 @@ class VacancyController extends Controller
 
     public function destroy(Vacancy $vacancy)
     {
+        abort_if($vacancy->company->user_id !== auth()->id(), 403);
+
         $vacancy->delete();
         return redirect()
             ->route('vacancies.index')
