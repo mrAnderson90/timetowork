@@ -49,12 +49,25 @@ class VacancyController extends Controller
             'experienceLevel',
             'skills',
             'tags',
-            'applications',
-            'applications.resume',
-            'applications.status',
         ]);
 
-        return view('vacancies.show', compact('vacancy'));
+        if (
+            auth()->check() &&
+            auth()->user()->isEmployer() &&
+            $vacancy->company->user_id === auth()->id()
+        ) {
+            $vacancy->load([
+                'applications',
+                'applications.resume',
+                'applications.status',
+            ]);
+        }
+
+        $hasApplied = auth()->check()
+            && auth()->user()->isApplicant()
+            && $vacancy->hasApplicationFrom(auth()->user());
+
+        return view('vacancies.show', compact('vacancy', 'hasApplied'));
     }
 
     /**

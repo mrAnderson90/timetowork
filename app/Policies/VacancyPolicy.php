@@ -28,4 +28,10 @@ class VacancyPolicy
         return $vacancy->company->user_id === $user->id;
     }
 
+    public function viewApplications(User $user, Vacancy $vacancy): bool
+    {
+        return $user->isEmployer()
+            && $vacancy->company->user_id === $user->id;
+    }
+
 }

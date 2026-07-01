@@ -1,4 +1,10 @@
-<div class="d-flex gap-2">
+@if($hasApplied)
+
+    <div class="alert alert-success mb-0">
+        Вы уже откликнулись на эту вакансию.
+    </div>
+
+@else
 
     <a
         href="{{ route('applications.create', $vacancy) }}"
@@ -7,4 +13,4 @@
         Откликнуться
     </a>
 
-</div>
+@endif
