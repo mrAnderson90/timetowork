@@ -2,59 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use App\Http\Requests\Profile\PasswordUpdateRequest;
+use App\Http\Requests\Profile\ProfileUpdateRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Страница профиля.
      */
-    public function edit(Request $request): View
+    public function edit()
     {
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => auth()->user(),
         ]);
     }
 
     /**
-     * Update the user's profile information.
+     * Обновление профиля.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
+        $user = auth()->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+        $user->update($request->validated());
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return back()->with(
+            'success',
+            'Профиль успешно обновлен.'
+        );
     }
 
     /**
-     * Delete the user's account.
+     * Смена пароля.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function updatePassword(PasswordUpdateRequest $request)
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
+        $user = auth()->user();
+
+        $user->update([
+            'password' => Hash::make(
+                $request->new_password
+            ),
         ]);
 
-        $user = $request->user();
+        return back()->with(
+            'success',
+            'Пароль успешно изменен.'
+        );
+    }
+
+    /**
+     * Удаление аккаунта.
+     */
+    public function destroy()
+    {
+        $user = auth()->user();
 
         Auth::logout();
 
         $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return redirect('/');
     }
 }
