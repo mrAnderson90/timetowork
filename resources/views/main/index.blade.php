@@ -2,6 +2,14 @@
 
 @section('content')
 
-    <h1>TimeToWork</h1>
+    <div class="container">
+
+        @include('main.partials.hero')
+
+        @include('main.partials.features')
+
+        @include('main.partials.actions')
+
+    </div>
 
 @endsection
