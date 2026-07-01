@@ -81,4 +81,19 @@ class User extends Authenticatable
             'vacancy_id'
         );
     }
+
+    public function isApplicant(): bool
+    {
+        return $this->role_id === Role::APPLICANT;
+    }
+
+    public function isEmployer(): bool
+    {
+        return $this->role_id === Role::EMPLOYER;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role_id === Role::ADMIN;
+    }
 }

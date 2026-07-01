@@ -10,18 +10,13 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            TimeToWork
-        </a>
-    </div>
-</nav>
+@include('navigation.index')
 
 <main class="container py-4">
+
     @if($errors->any())
         <div class="alert alert-danger">
-            <ul>
+            <ul class="mb-0">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -29,13 +24,14 @@
         </div>
     @endif
 
-    @yield('content')
-
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
+
+    @yield('content')
+
 </main>
 
 </body>

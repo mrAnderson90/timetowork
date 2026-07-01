@@ -75,4 +75,11 @@ class Vacancy extends Model
             'user_id'
         );
     }
+
+    public function hasApplicationFrom(User $user): bool
+    {
+        return $this->applications()
+            ->whereHas('resume', fn ($query) => $query->where('user_id', $user->id))
+            ->exists();
+    }
 }

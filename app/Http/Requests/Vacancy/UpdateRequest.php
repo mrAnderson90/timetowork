@@ -4,6 +4,7 @@ namespace App\Http\Requests\Vacancy;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -24,14 +25,31 @@ class UpdateRequest extends FormRequest
     {
         return [
             'title' => [ 'required', 'string', 'max:255' ],
-            'vacancy_category_id' => [ 'required', 'integer' ],
+            'vacancy_category_id' => [
+                'required',
+                'integer',
+                'exists:vacancy_categories,id',
+            ],
             'description' => [ 'nullable', 'string' ],
             'salary_from' => [ 'nullable', 'integer' ],
             'salary_to' => [ 'nullable', 'integer' ],
             'city' => [ 'nullable', 'string', 'max:255' ],
-            'employment_type_id' => [ 'required', 'integer' ],
-            'experience_level_id' => [ 'required', 'integer' ],
-            'vacancy_status_id' => [ 'required', 'integer' ],
+            'company_id' => ['required', 'exists:companies,id'],
+            'employment_type_id' => [
+                'required',
+                'integer',
+                'exists:employment_types,id',
+            ],
+            'experience_level_id' => [
+                'required',
+                'integer',
+                'exists:experience_levels,id',
+            ],
+            'vacancy_status_id' => [
+                'required',
+                'integer',
+                'exists:vacancy_statuses,id',
+            ],
             'tags' => [ 'nullable', 'array' ],
             'tags.*' => ['integer', 'exists:tags,id'],
             'skills' => [ 'nullable', 'array' ],

@@ -28,7 +28,7 @@ class ApplicationFactory extends Factory
             'cover_letter' => fake()->paragraphs(2, true),
 
             'application_status_id' => ApplicationStatus::query()
-                ->inRandomOrder()
+                ->where('name', 'Новый')
                 ->value('id'),
         ];
     }

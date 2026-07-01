@@ -3,10 +3,6 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="h3 mb-0">Список вакансий</h3>
-
-        <a class="btn btn-primary" href="{{ route('vacancies.create') }}">
-            Создать новую вакансию
-        </a>
     </div>
 
     <ul class="list-group list-group-flush">

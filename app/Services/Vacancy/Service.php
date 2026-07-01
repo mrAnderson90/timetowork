@@ -13,10 +13,14 @@ class Service
 
         unset($data['tags'], $data['skills']);
 
-        $data['company_id'] = 1;
+        abort_if(
+            !auth()->user()->companies()->whereKey($data['company_id'])->exists(),
+            403
+        );
+
         $vacancy = Vacancy::create($data);
-        $vacancy->tags()->attach($tags);
-        $vacancy->skills()->attach($skills);
+        $vacancy->tags()->sync($tags);
+        $vacancy->skills()->sync($skills);
     }
 
     public function update(Vacancy $vacancy, array $data): void
@@ -26,8 +30,10 @@ class Service
 
         unset($data['tags'], $data['skills']);
 
-        $data['company_id'] = 1;
-
+        abort_if(
+            !auth()->user()->companies()->whereKey($data['company_id'])->exists(),
+            403
+        );
 
         $vacancy->update($data);
         $vacancy->tags()->sync($tags);

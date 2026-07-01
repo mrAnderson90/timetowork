@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Company;
+use App\Models\Vacancy;
+use App\Policies\CompanyPolicy;
+use App\Policies\VacancyPolicy;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,8 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Paginator::defaultView('vendor.pagination.bootstrap-5');
+        Gate::policy(Vacancy::class, VacancyPolicy::class);
+        Gate::policy(Company::class, CompanyPolicy::class);
 
+
+        Paginator::defaultView('vendor.pagination.bootstrap-5');
         Paginator::defaultSimpleView('vendor.pagination.bootstrap-5');
     }
 }

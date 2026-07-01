@@ -14,6 +14,10 @@ class ResumePhoto extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'is_main' => 'boolean',
+    ];
+
     public function resume(): BelongsTo
     {
         return $this->belongsTo(Resume::class, 'resume_id', 'id');

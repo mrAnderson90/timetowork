@@ -26,6 +26,7 @@ class ResumeController extends Controller
     public function index()
     {
         $resumes = Resume::query()
+            ->where('user_id', auth()->id())
             ->with(['employmentType', 'visibility'])
             ->latest()
             ->paginate(10);
@@ -68,11 +69,17 @@ class ResumeController extends Controller
      */
     public function show(Resume $resume)
     {
+        abort_if($resume->user_id !== auth()->id(), 403);
+
         $resume->load([
             'employmentType',
             'visibility',
             'experiences',
+            'educations',
+            'educations.degree',
             'skills',
+            'photos',
+            'mainPhoto',
         ]);
 
         return view('resumes.show', compact('resume'));
@@ -83,6 +90,8 @@ class ResumeController extends Controller
      */
     public function edit(Resume $resume)
     {
+        abort_if($resume->user_id !== auth()->id(), 403);
+
         $resume->load('skills');
 
         $employmentTypes = EmploymentType::all();
@@ -102,6 +111,8 @@ class ResumeController extends Controller
      */
     public function update(UpdateRequest $request, Resume $resume)
     {
+        abort_if($resume->user_id !== auth()->id(), 403);
+
         $data = $request->validated();
 
         $this->service->update($resume, $data);
@@ -116,6 +127,8 @@ class ResumeController extends Controller
      */
     public function destroy(Resume $resume)
     {
+        abort_if($resume->user_id !== auth()->id(), 403);
+
         $resume->delete();
 
         return redirect()
