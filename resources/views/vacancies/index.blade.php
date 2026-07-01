@@ -1,25 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3 class="h3 mb-0">Список вакансий</h3>
-    </div>
 
-    <ul class="list-group list-group-flush">
-        @forelse($vacancies as $vacancy)
-            <li class="list-group-item">
-                <a href="{{ route('vacancies.show', $vacancy) }}">
-                    {{ $vacancy->title }}
-                </a>
-            </li>
-        @empty
-            <li class="list-group-item">
-                No vacancies yet
-            </li>
-        @endforelse
-    </ul>
+    <h3 class="mb-4">
+        Вакансии
+    </h3>
 
-    <div class="mt-3">
+    @forelse($vacancies as $vacancy)
+
+        @include('vacancies.partials.vacancy-card')
+
+    @empty
+
+        <div class="text-muted">
+            Вакансий пока нет.
+        </div>
+
+    @endforelse
+
+    <div class="mt-4">
         {{ $vacancies->withQueryString()->links() }}
     </div>
+
 @endsection
