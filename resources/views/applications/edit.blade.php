@@ -11,7 +11,7 @@
     </a>
 
     <form
-        action="{{ route('applications.update', $application) }}"
+        action="{{ route('employer.vacancies.applications.update', [$vacancy, $application]) }}"
         method="POST"
     >
         @csrf

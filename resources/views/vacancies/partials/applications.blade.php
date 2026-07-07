@@ -1,72 +1,81 @@
-<div class="card">
+<section>
 
-    <div class="card-header">
-        Отклики
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <h4 class="mb-0">
+            Отклики
+        </h4>
+
+        <span class="text-muted">
+            {{ $vacancy->applications->count() }}
+            {{ trans_choice('отклик|отклика|откликов', $vacancy->applications->count()) }}
+        </span>
+
     </div>
 
-    <div class="card-body">
+    @forelse($vacancy->applications as $application)
 
-        @forelse($vacancy->applications as $application)
+        <div class="border rounded p-3 mb-3">
 
-            <div class="border rounded p-3 mb-3">
+            <div class="d-flex justify-content-between align-items-start mb-2">
 
-                <h5 class="mb-3">
-                    {{ $application->resume->title }}
-                </h5>
-
-                <p class="mb-1">
-                    <strong>Статус:</strong>
-                    {{ $application->status->name }}
-                </p>
-
-                <p class="mb-1">
-                    <strong>Дата отклика:</strong>
-                    {{ $application->created_at->format('d.m.Y H:i') }}
-                </p>
-
-                <p class="mb-1">
-                    <strong>Сопроводительное письмо:</strong>
-                </p>
-
-                <p class="mb-3">
-                    {{ $application->cover_letter ?: 'Не указано' }}
-                </p>
-
-                <div class="d-flex gap-2">
+                <div>
 
                     <a
-                        href="{{ route('applications.edit', $application) }}"
-                        class="btn btn-sm btn-primary"
+                        href="{{ route('resumes.show', $application->resume) }}"
+                        class="fw-semibold text-decoration-none"
                     >
-                        Изменить статус
+                        {{ $application->resume->title }}
                     </a>
 
-                    <form
-                        action="{{ route('applications.destroy', $application) }}"
-                        method="POST"
-                        onsubmit="return confirm('Удалить отклик?')"
-                    >
-                        @csrf
-                        @method('DELETE')
-
-                        <button class="btn btn-sm btn-danger">
-                            Удалить
-                        </button>
-
-                    </form>
+                    <div class="small text-muted">
+                        {{ $application->created_at->format('d.m.Y H:i') }}
+                    </div>
 
                 </div>
 
+                <span class="badge text-bg-light">
+                    {{ $application->status->name }}
+                </span>
+
             </div>
 
-        @empty
+            @if($application->cover_letter)
 
-            <p class="text-muted mb-0">
-                Пока никто не откликнулся.
-            </p>
+                <div class="mb-3">
 
-        @endforelse
+                    {{ Str::limit($application->cover_letter, 250) }}
 
-    </div>
+                </div>
 
-</div>
+            @endif
+
+            <div class="d-flex gap-2">
+
+                <a
+                    href="{{ route('resumes.show', $application->resume) }}"
+                    class="btn btn-outline-secondary btn-sm"
+                >
+                    Открыть резюме
+                </a>
+
+                <a
+                    href="{{ route('employer.vacancies.applications.edit', [$vacancy, $application]) }}"
+                    class="btn btn-primary btn-sm"
+                >
+                    Изменить статус
+                </a>
+
+            </div>
+
+        </div>
+
+    @empty
+
+        <div class="text-muted">
+            Пока никто не откликнулся.
+        </div>
+
+    @endforelse
+
+</section>

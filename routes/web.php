@@ -109,8 +109,8 @@ Route::middleware(['auth', 'applicant'])->group(function () {
         ->name('applications.')
         ->group(function () {
 
-            Route::get('/{application}/edit', [ApplicationController::class, 'edit'])->name('edit');
-            Route::patch('/{application}', [ApplicationController::class, 'update'])->name('update');
+//            Route::get('/{application}/edit', [ApplicationController::class, 'edit'])->name('edit');
+//            Route::patch('/{application}', [ApplicationController::class, 'update'])->name('update');
             Route::delete('/{application}', [ApplicationController::class, 'destroy'])->name('destroy');
 
         });
@@ -124,6 +124,7 @@ Route::middleware(['auth', 'applicant'])->group(function () {
 */
 
 Route::middleware(['auth', 'employer'])
+    ->scopeBindings()
     ->prefix('employer')
     ->name('employer.')
     ->group(function () {
@@ -138,27 +139,54 @@ Route::middleware(['auth', 'employer'])
 
         /*
         |--------------------------------------------------------------------------
-        | Вакансии работодателя
+        | Вакансии
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/vacancies', [VacancyController::class, 'employerIndex'])
-            ->name('vacancies.index');
+        Route::prefix('vacancies')
+            ->name('vacancies.')
+            ->group(function () {
 
-        Route::get('/vacancies/create', [VacancyController::class, 'create'])
-            ->name('vacancies.create');
+                Route::get('/', [VacancyController::class, 'employerIndex'])
+                    ->name('index');
 
-        Route::post('/vacancies', [VacancyController::class, 'store'])
-            ->name('vacancies.store');
+                Route::get('/create', [VacancyController::class, 'create'])
+                    ->name('create');
 
-        Route::get('/vacancies/{vacancy}/edit', [VacancyController::class, 'edit'])
-            ->name('vacancies.edit');
+                Route::post('/', [VacancyController::class, 'store'])
+                    ->name('store');
 
-        Route::patch('/vacancies/{vacancy}', [VacancyController::class, 'update'])
-            ->name('vacancies.update');
+                Route::get('/{vacancy}/edit', [VacancyController::class, 'edit'])
+                    ->name('edit');
 
-        Route::delete('/vacancies/{vacancy}', [VacancyController::class, 'destroy'])
-            ->name('vacancies.destroy');
+                Route::patch('/{vacancy}', [VacancyController::class, 'update'])
+                    ->name('update');
+
+                Route::delete('/{vacancy}', [VacancyController::class, 'destroy'])
+                    ->name('destroy');
+
+                /*
+                |--------------------------------------------------------------------------
+                | Отклики
+                |--------------------------------------------------------------------------
+                */
+
+                Route::prefix('{vacancy}/applications')
+                    ->name('applications.')
+                    ->group(function () {
+
+                        Route::get('/', [ApplicationController::class, 'index'])
+                            ->name('index');
+
+                        Route::get('/{application}/edit', [ApplicationController::class, 'edit'])
+                            ->name('edit');
+
+                        Route::patch('/{application}', [ApplicationController::class, 'update'])
+                            ->name('update');
+
+                    });
+
+            });
     });
 
 /*

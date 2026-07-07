@@ -69,31 +69,34 @@ class ApplicationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Application $application)
+    public function edit(Vacancy $vacancy, Application $application)
     {
-        abort_if($application->vacancy->user_id !== auth()->id(), 403);
+        $this->authorize('update', $application);
 
         $statuses = ApplicationStatus::all();
 
         return view(
             'applications.edit',
-            compact('application', 'statuses')
+            compact('vacancy', 'application', 'statuses')
         );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequest $request, Application $application)
+    public function update(UpdateRequest $request,
+                           Vacancy $vacancy,
+                           Application $application
+    )
     {
-        abort_if($application->vacancy->user_id !== auth()->id(), 403);
+        $this->authorize('update', $application);
 
         $data = $request->validated();
 
         $this->service->update($application, $data);
 
         return redirect()
-            ->route('vacancies.show', $application->vacancy)
+            ->route('vacancies.show', $vacancy)
             ->with('success', 'Статус отклика обновлен');
     }
 

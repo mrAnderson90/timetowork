@@ -179,7 +179,9 @@
 
     @can('viewApplications', $vacancy)
 
-        @include('vacancies.partials.applications')
+        @include('vacancies.partials.applications', [
+            'vacancy' => $vacancy,
+        ])
 
     @endcan
 
