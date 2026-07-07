@@ -45,7 +45,7 @@
                 </ul>
 
                 <p class="fw-bold mb-1">Статус резюме (видимость):</p>
-                <p>{{ $resume->visibility->name }}</p>
+                <p>{{ $resume->resumeVisibility->name }}</p>
             </div>
 
             <div class="d-flex gap-2">

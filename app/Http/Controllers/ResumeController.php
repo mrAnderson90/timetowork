@@ -27,7 +27,7 @@ class ResumeController extends Controller
     {
         $resumes = Resume::query()
             ->where('user_id', auth()->id())
-            ->with(['employmentType', 'visibility'])
+            ->with(['employmentType', 'resumeVisibility'])
             ->latest()
             ->paginate(10);
 
@@ -74,8 +74,9 @@ class ResumeController extends Controller
         $this->authorize('view', $resume);
 
         $resume->load([
+            'user',
             'employmentType',
-            'visibility',
+            'resumeVisibility',
             'experiences',
             'educations',
             'educations.degree',

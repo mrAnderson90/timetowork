@@ -27,7 +27,7 @@ class Resume extends Model
         return $this->belongsTo(EmploymentType::class, 'employment_type_id', 'id');
     }
 
-    public function visibility(): BelongsTo
+    public function resumeVisibility(): BelongsTo
     {
         return $this->belongsTo(ResumeVisibility::class, 'resume_visibility_id', 'id');
     }
