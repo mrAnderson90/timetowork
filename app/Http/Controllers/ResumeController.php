@@ -39,6 +39,8 @@ class ResumeController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Resume::class);
+
         $employmentTypes = EmploymentType::all();
         $visibilities = ResumeVisibility::all();
         $skills = Skill::all();
@@ -69,7 +71,7 @@ class ResumeController extends Controller
      */
     public function show(Resume $resume)
     {
-        abort_if($resume->user_id !== auth()->id(), 403);
+        $this->authorize('view', $resume);
 
         $resume->load([
             'employmentType',
@@ -90,7 +92,7 @@ class ResumeController extends Controller
      */
     public function edit(Resume $resume)
     {
-        abort_if($resume->user_id !== auth()->id(), 403);
+        $this->authorize('update', $resume);
 
         $resume->load('skills');
 
@@ -111,7 +113,7 @@ class ResumeController extends Controller
      */
     public function update(UpdateRequest $request, Resume $resume)
     {
-        abort_if($resume->user_id !== auth()->id(), 403);
+        $this->authorize('update', $resume);
 
         $data = $request->validated();
 
@@ -127,7 +129,7 @@ class ResumeController extends Controller
      */
     public function destroy(Resume $resume)
     {
-        abort_if($resume->user_id !== auth()->id(), 403);
+        $this->authorize('delete', $resume);
 
         $resume->delete();
 

@@ -33,13 +33,34 @@ Route::resource('vacancies', VacancyController::class)
 
 /*
 |--------------------------------------------------------------------------
+| Публичные авторизованные маршруты
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')->group(function () {
+
+    Route::prefix('resumes/show')
+        ->name('resumes.')
+        ->group(function () {
+
+            Route::get('/{resume}', [ResumeController::class, 'show'])
+                ->can('view', 'resume')
+                ->name('show');
+
+        });
+
+});
+
+/*
+|--------------------------------------------------------------------------
 | Соискатель
 |--------------------------------------------------------------------------
 */
 
 Route::middleware(['auth', 'applicant'])->group(function () {
 
-    Route::resource('resumes', ResumeController::class);
+    Route::resource('resumes', ResumeController::class)
+        ->except('show');
 
     Route::prefix('resumes/{resume}')
         ->name('resume-experiences.')
