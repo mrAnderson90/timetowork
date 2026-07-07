@@ -28,8 +28,18 @@ Route::get('/main', [MainController::class, 'index'])
 |--------------------------------------------------------------------------
 */
 
-Route::resource('vacancies', VacancyController::class)
-    ->only(['index', 'show']);
+Route::prefix('vacancies')
+    ->name('vacancies.')
+    ->group(function () {
+
+        Route::get('/', [VacancyController::class, 'index'])->name('index');
+        Route::get('/search', [VacancyController::class, 'search'])->name('search');
+        Route::get('/{vacancy}', [VacancyController::class, 'show'])->name('show');
+
+    });
+
+//Route::resource('vacancies', VacancyController::class)
+//    ->only(['index', 'show']);
 
 /*
 |--------------------------------------------------------------------------

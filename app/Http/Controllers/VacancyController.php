@@ -169,6 +169,11 @@ class VacancyController extends Controller
             ->with('success', 'Вакансия успешно обновлена');
     }
 
+    public function search()
+    {
+        return view('vacancies.search');
+    }
+
     public function destroy(Vacancy $vacancy)
     {
         abort_if($vacancy->company->user_id !== auth()->id(), 403);
