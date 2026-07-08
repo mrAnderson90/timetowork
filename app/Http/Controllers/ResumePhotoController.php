@@ -76,4 +76,13 @@ class ResumePhotoController extends Controller
                 'Фотография удалена'
             );
     }
+
+    public function makeMain(ResumePhoto $photo)
+    {
+        $this->authorize('update', $photo->resume);
+
+        $this->service->makeMain($photo);
+
+        return back()->with('success', 'Главная фотография изменена.');
+    }
 }

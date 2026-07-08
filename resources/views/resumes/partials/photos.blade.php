@@ -27,7 +27,7 @@
 
                     @unless($photo->is_main)
 
-                        <form action="{{ route('resume-photos.update', $photo) }}" method="POST">
+                        <form action="{{ route('resume-photos.main', $photo) }}" method="POST">
                             @csrf
                             @method('PATCH')
 

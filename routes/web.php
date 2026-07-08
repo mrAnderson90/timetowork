@@ -124,6 +124,7 @@ Route::middleware(['auth', 'applicant'])->group(function () {
         ->group(function () {
 
             Route::patch('/{photo}', [ResumePhotoController::class, 'update'])->name('update');
+            Route::patch('/{photo}/main', [ResumePhotoController::class, 'makeMain'])->name('main');
             Route::delete('/{photo}', [ResumePhotoController::class, 'destroy'])->name('destroy');
 
         });

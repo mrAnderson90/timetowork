@@ -14,6 +14,11 @@ class ResumeExperience extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'date_from' => 'date',
+        'date_to' => 'date',
+    ];
+
     public function resume(): BelongsTo
     {
         return $this->belongsTo(Resume::class, 'resume_id', 'id');

@@ -22,9 +22,9 @@
                 </div>
 
                 <small class="text-muted">
-                    {{ $experience->start_date->format('m.Y') }}
+                    {{ $experience->date_from->format('m.Y') }}
                     —
-                    {{ $experience->end_date?->format('m.Y') ?? 'н.в.' }}
+                    {{ $experience->date_to?->format('m.Y') ?? 'н.в.' }}
                 </small>
 
             </div>

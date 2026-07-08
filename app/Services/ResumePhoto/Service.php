@@ -50,4 +50,17 @@ class Service
             ]);
         }
     }
+
+    public function makeMain(ResumePhoto $photo): void
+    {
+        ResumePhoto::query()
+            ->where('resume_id', $photo->resume_id)
+            ->update([
+                'is_main' => false,
+            ]);
+
+        $photo->update([
+            'is_main' => true,
+        ]);
+    }
 }

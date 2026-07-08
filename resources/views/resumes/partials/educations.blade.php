@@ -22,9 +22,9 @@
                 </div>
 
                 <small class="text-muted">
-                    {{ $education->start_date->format('Y') }}
+                    {{ $education->date_from->format('Y') }}
                     —
-                    {{ $education->end_date?->format('Y') ?? 'н.в.' }}
+                    {{ $education->date_to?->format('Y') ?? 'н.в.' }}
                 </small>
 
             </div>
