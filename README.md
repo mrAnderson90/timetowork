@@ -1,59 +1,147 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TimeToWork
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**TimeToWork** — веб-приложение для поиска вакансий и размещения резюме, разработанное на фреймворке Laravel в рамках выпускной квалификационной работы по направлению **Backend PHP**.
 
-## About Laravel
+## Основные возможности
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Для соискателя
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- регистрация и авторизация;
+- управление личным профилем;
+- создание и редактирование резюме;
+- добавление фотографий, образования, опыта работы и навыков;
+- просмотр вакансий;
+- отклик на вакансии;
+- управление своими откликами.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Для работодателя
 
-## Learning Laravel
+- регистрация и авторизация;
+- управление компаниями;
+- создание и редактирование вакансий;
+- просмотр откликов на вакансии;
+- изменение статуса откликов;
+- просмотр резюме кандидатов.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Используемые технологии
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.x
+- Laravel 12
+- MySQL / MariaDB
+- Eloquent ORM
+- Blade
+- Bootstrap 5
+- Vite
 
-## Laravel Sponsors
+## Архитектура
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Проект реализован по архитектурному шаблону **MVC**.
 
-### Premium Partners
+При разработке используются:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- Controllers
+- Models
+- Blade Views
+- Services
+- Form Requests
+- Policies
+- Middleware
+- Eloquent ORM
 
-## Contributing
+## Установка
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Клонировать репозиторий:
 
-## Code of Conduct
+```bash
+git clone <repository-url>
+cd timetowork
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Установить зависимости:
 
-## Security Vulnerabilities
+```bash
+composer install
+npm install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Создать файл окружения:
 
-## License
+```bash
+cp .env.example .env
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Сгенерировать ключ приложения:
+
+```bash
+php artisan key:generate
+```
+
+Настроить подключение к базе данных в файле `.env`.
+
+Выполнить миграции и заполнить справочники:
+
+```bash
+php artisan migrate --seed
+```
+
+Создать символическую ссылку для хранения файлов:
+
+```bash
+php artisan storage:link
+```
+
+Запустить приложение:
+
+```bash
+php artisan serve
+```
+
+При необходимости запустить Vite:
+
+```bash
+npm run dev
+```
+
+## Структура проекта
+
+```
+app/
+ ├── Http/
+ │    ├── Controllers
+ │    ├── Middleware
+ │    ├── Requests
+ │    └── Policies
+ │
+ ├── Models
+ └── Services
+
+resources/
+ └── views
+
+routes/
+ ├── web.php
+ └── auth.php
+
+database/
+ ├── migrations
+ └── seeders
+```
+
+## Реализованные модули
+
+- авторизация пользователей;
+- роли пользователей;
+- профиль пользователя;
+- управление компаниями;
+- управление вакансиями;
+- управление резюме;
+- фотографии резюме;
+- образование;
+- опыт работы;
+- навыки;
+- отклики на вакансии;
+- управление статусами откликов.
+
+## Статус проекта
+
+Проект разработан в учебных целях в рамках выпускной квалификационной работы и продолжает развиваться.
